@@ -1,9 +1,3 @@
----
-title: "DCGentrificationDataCleaning"
-author: "Arica Schuett"
-date: "10/22/2021"
-output: pdf_document
----
 
 ## Gentrification in DC Survey
 ## WA-PO Survey Data
@@ -71,8 +65,8 @@ DF00 <- mutate( DF00,
 
 # race?
 DF00 <- mutate( DF00, 
-                White = ifelse(DF00$race== "Male", 1, 0),
-                Black = ifelse(DF00$race  == "Female", 1, 0),
+                White = ifelse(DF00$race== "White", 1, 0),
+                Black = ifelse(DF00$race  == "Black", 1, 0),
                 WhiteHisp = ifelse(DF00$race== "White Hispanic", 1, 0),
                 BlackHisp = ifelse(DF00$race== "Black Hispanic", 1, 0),
                 HispNRG = ifelse(DF00$race== "Hispanic(no race given)", 1, 0),
@@ -747,7 +741,7 @@ plotBlackview06 <-
   labs(y = "Percent", x= "views", title = "Black Residents Views of Redevelopment for Blacks 2006")+    ### Shorten title if using cowplot
   geom_text(aes(label = signif(n/sum(n)*100, digits = 3)), vjust = -0.5) +
   theme_minimal()
-plotBlackview06
+#plotBlackview06
 
 
 ###### white views of gentrification for BLACKS 2006 #########################################
@@ -768,7 +762,7 @@ plotwhiteview06 <-
   labs(y = "Percent", x= "views", title = "White Residents Views of Redevelopment for Blacks 2006")+    ### Shorten title if using cowplot
   geom_text(aes(label = signif(n/sum(n)*100, digits = 3)), vjust = -0.5) +
   theme_minimal()
-plotwhiteview06
+#plotwhiteview06
 
 
 ## Cowplot them
@@ -793,7 +787,7 @@ plotBlackview4Wht06 <-
   labs(y = "Percent", x= "views", title = "Black Residents Views of Redevelopment for whites 2006")+    ### Shorten title if using cowplot
   geom_text(aes(label = signif(n/sum(n)*100, digits = 3)), vjust = -0.5) +
   theme_minimal()
-plotBlackview4Wht06
+#plotBlackview4Wht06
 
 ###### White Views on gentrification for WHITES 2006 ##############################
 whiteOpinonGenforWht06 <- 
@@ -812,7 +806,7 @@ plotwhiteview4Wht06 <-
   labs(y = "Percent", x= "views", title = "White Residents Views of Redevelopment for whites 2006")+    ### Shorten title if using cowplot
   geom_text(aes(label = signif(n/sum(n)*100, digits = 3)), vjust = -0.5) +
   theme_minimal()
-plotwhiteview4Wht06
+#plotwhiteview4Wht06
 
 ## Cowplot them
 RD_Opn_byRace06 <- plot_grid(plotBlackview4Wht06, plotwhiteview4Wht06, 
@@ -836,7 +830,7 @@ plotBlackview4Rich06 <-
   labs(y = "Percent", x= "views", title = "Black Residents Views of Redevelopment for The Rich 2006")+    ### Shorten title if using cowplot
   geom_text(aes(label = signif(n/sum(n)*100, digits = 3)), vjust = -0.5) +
   theme_minimal()
-plotBlackview4Rich06
+#plotBlackview4Rich06
 
 ##### White views on gentrification for THE RICH 2006 ##############################
 WhtOpinonGenforRich06 <- 
@@ -855,7 +849,7 @@ plotWhtview4Rich06 <-
   labs(y = "Percent", x= "views", title = "White Residents Views of Redevelopment for The Rich 2006")+    ### Shorten title if using cowplot
   geom_text(aes(label = signif(n/sum(n)*100, digits = 3)), vjust = -0.5) +
   theme_minimal()
-plotWhtview4Rich06
+#plotWhtview4Rich06
 
 ## Cowplot them
 RD_Opn_byRace06 <- plot_grid(plotBlackview4Rich06, plotWhtview4Rich06, 
@@ -878,7 +872,7 @@ plotBlackview4Nbhd06 <-
   labs(y = "Percent", x= "views", title = "Black Residents Views of Redevelopment for Their Nbhd 2006")+    ### Shorten title if using cowplot
   geom_text(aes(label = signif(n/sum(n)*100, digits = 3)), vjust = -0.5) +
   theme_minimal()
-plotBlackview4Nbhd06
+#plotBlackview4Nbhd06
 
 ##### White views on gentrification for YOUR NEIGHBORHOOD 2006 ##############################
 WhtOpinonGenforNbhd06 <- 
@@ -897,7 +891,7 @@ plotWhtview4Nbhd06 <-
   labs(y = "Percent", x= "views", title = "White Residents Views of Redevelopment for Their Nbhd 2006")+    ### Shorten title if using cowplot
   geom_text(aes(label = signif(n/sum(n)*100, digits = 3)), vjust = -0.5) +
   theme_minimal()
-plotWhtview4Nbhd06
+#plotWhtview4Nbhd06
 
 ## Cowplot them
 RD_Opn_byRace06 <- plot_grid(plotBlackview4Nbhd06, plotWhtview4Nbhd06, 
@@ -920,7 +914,7 @@ plotBlackview4PPL06 <-
   labs(y = "Percent", x= "views", title = "Black Views of Redevelopment for People like You 2006")+    ### Shorten title if using cowplot
   geom_text(aes(label = signif(n/sum(n)*100, digits = 3)), vjust = -0.5) +
   theme_minimal()
-plotBlackview4PPL06
+#plotBlackview4PPL06
 
 ##### White views on gentrification for PEOPLE LIKE YOU 2006 ##############################
 WhtOpnGenforPplLikeU06 <- 
@@ -939,7 +933,7 @@ plotWhtview4PPL06 <-
   labs(y = "Percent", x= "views", title = "White Views of Redevelopment for People Like You 2006")+    ### Shorten title if using cowplot
   geom_text(aes(label = signif(n/sum(n)*100, digits = 3)), vjust = -0.5) +
   theme_minimal()
-plotWhtview4PPL06
+#plotWhtview4PPL06
 
 ## Cowplot them
 RD_Opn_byRace06 <- plot_grid(plotBlackview4PPL06, plotWhtview4PPL06, 
@@ -962,7 +956,7 @@ plotBlackview4CITY06 <-
   labs(y = "Percent", x= "views", title = "Black Views of Redevelopment for The City  2006")+    ### Shorten title if using cowplot
   geom_text(aes(label = signif(n/sum(n)*100, digits = 3)), vjust = -0.5) +
   theme_minimal()
-plotBlackview4CITY06
+#plotBlackview4CITY06
 
 ##### White views on gentrification for THE CITY OVERALL 2006 ##############################
 WhtOpnGenforCITY06 <- 
@@ -981,7 +975,7 @@ plotWhtview4CITY06 <-
   labs(y = "Percent", x= "views", title = "White Views of Redevelopment for The City 2006")+    ### Shorten title if using cowplot
   geom_text(aes(label = signif(n/sum(n)*100, digits = 3)), vjust = -0.5) +
   theme_minimal()
-plotWhtview4CITY06
+#plotWhtview4CITY06
 
 ## Cowplot them
 RD_Opn_byRace06 <- plot_grid(plotBlackview4CITY06, plotWhtview4CITY06, 
@@ -1005,7 +999,7 @@ plotBlackview08 <-
   labs(y = "Percent", x= "views", title = "Black Views of Redevelopment for The Rich 2008")+    ### Shorten title if using cowplot
   geom_text(aes(label = signif(n/sum(n)*100, digits = 3)), vjust = -0.5) +
   theme_minimal()
-plotBlackview08
+#plotBlackview08
 
 ###### white views of gentrification for THE RICH 2008 #########################################
 whiteres08 <- filter(DF08, RACENET == 1)
@@ -1025,7 +1019,7 @@ plotwhiteview08 <-
   labs(y = "Percent", x= "views", title = "White Views of Redevelopment for The Rich 2008")+    ### Shorten title if using cowplot
   geom_text(aes(label = signif(n/sum(n)*100, digits = 3)), vjust = -0.5) +
   theme_minimal()
-plotwhiteview08
+#plotwhiteview08
 
 
 ## Cowplot them
@@ -1050,7 +1044,7 @@ plotBlackview4Poor08 <-
   labs(y = "Percent", x= "views", title = "Black Views of Redevelopment for The Poor 2008")+    ### Shorten title if using cowplot
   geom_text(aes(label = signif(n/sum(n)*100, digits = 3)), vjust = -0.5) +
   theme_minimal()
-plotBlackview4Poor08
+#plotBlackview4Poor08
 
 ###### White Views on gentrification for THE POOR 2008 ##############################
 whiteOpinonGenforPOOR08 <- 
@@ -1069,7 +1063,7 @@ plotwhiteview4Poor08 <-
   labs(y = "Percent", x= "views", title = "White Views of Redevelopment for The Poor 2008")+    ### Shorten title if using cowplot
   geom_text(aes(label = signif(n/sum(n)*100, digits = 3)), vjust = -0.5) +
   theme_minimal()
-plotwhiteview4Poor08
+#plotwhiteview4Poor08
 
 ## Cowplot them
 RD_Opn_byRace08 <- plot_grid(plotBlackview4Poor08, plotwhiteview4Poor08, 
@@ -1093,7 +1087,7 @@ plotBlackview4Nbhd08 <-
   labs(y = "Percent", x= "views", title = "Black Views of Redevelopment for The Neighborhood 2008")+    ### Shorten title if using cowplot
   geom_text(aes(label = signif(n/sum(n)*100, digits = 3)), vjust = -0.5) +
   theme_minimal()
-plotBlackview4Nbhd08
+#plotBlackview4Nbhd08
 
 ##### White views on gentrification for THE NBHD 2008 ##############################
 WhtOpinonGenforRich08 <- 
@@ -1112,7 +1106,7 @@ plotWhtview4Nbhd08 <-
   labs(y = "Percent", x= "views", title = "White Views of Redevelopment for The Neighborhood 2008")+    ### Shorten title if using cowplot
   geom_text(aes(label = signif(n/sum(n)*100, digits = 3)), vjust = -0.5) +
   theme_minimal()
-plotWhtview4Nbhd08
+#plotWhtview4Nbhd08
 
 ## Cowplot them
 RD_Opn_byRace08 <- plot_grid(plotBlackview4Nbhd08, plotWhtview4Nbhd08, 
@@ -1136,7 +1130,7 @@ plotBlackview4CITY08 <-
   labs(y = "Percent", x= "views", title = "Black Views of Redevelopment for The CITY 2008")+    ### Shorten title if using cowplot
   geom_text(aes(label = signif(n/sum(n)*100, digits = 3)), vjust = -0.5) +
   theme_minimal()
-plotBlackview4CITY08
+#plotBlackview4CITY08
 
 ##### White views on gentrification for THE CITY 2008 ##############################
 WhtOpinonGenforCITY08 <- 
@@ -1155,7 +1149,7 @@ plotWhtview4CITY08 <-
   labs(y = "Percent", x= "views", title = "White Views of Redevelopment for The City 2008")+    ### Shorten title if using cowplot
   geom_text(aes(label = signif(n/sum(n)*100, digits = 3)), vjust = -0.5) +
   theme_minimal()
-plotWhtview4CITY08
+#plotWhtview4CITY08
 
 ## Cowplot them
 RD_Opn_byRace08 <- plot_grid(plotBlackview4CITY08, plotWhtview4CITY08, 
@@ -1427,36 +1421,33 @@ DF14 <- mutate(DF14,
 
 ###### 2015 #####################################################################################################################################################
 
-DF15 <-read_csv("/Users/aricaschuett/Documents/MiLO/Gentrification/31115652.csv")
-
-DF15Test <-read_dta("/Users/aricaschuett/Documents/MiLO/Gentrification/31115652.DTA")
+#DF15 <-read_csv("/Users/aricaschuett/Documents/MiLO/Gentrification/31115652.csv")
+#DF15V2 <- read_dta("/Users/aricaschuett/Documents/MiLO/Gentrification/DG_v2.dta")
+DF15 <-read_dta("/Users/aricaschuett/Documents/MiLO/Gentrification/31115652.DTA")
 
 # 9. If you had to move today, do you think you could (buy a home/ find a rental)
 # in the District that you would like and could afford, or do you think you would
 # have to move to the suburbs to find something you would like and could afford?
 DF15 <- mutate( DF15, 
-                CouldFindinDC = ifelse(DF15$q9 == "Could find something in District", 1, 0),
-                CouldFindinSub = ifelse(DF15$q9 == "Would have to move to suburbs", 1, 0),
-                DK_NoOpn = ifelse(DF15$q9 == "(VOL) DK/No Opinion", 1, 0),
-                NAp_Ref = ifelse(DF15$q9 == "(VOL) NA/Refused", 1, 0))
+                CouldFindinDC = ifelse(DF15$Q9 == 1, 1, 0),
+                CouldFindinSub = ifelse(DF15$Q9 == 2, 1, 0),
+                DK_NoOpn = ifelse(DF15$Q9 == 8, 1, 0))
 
 # 11. As you may know, the District government is trying to redevelop parts of
 # the city to attract new businesses and residents. Do you think this process of
 # redevelopment is mainly good or mainly bad for people like you? 
 DF15 <- mutate( DF15, 
-                ReDevGood = ifelse(DF15$q11 == "Mainly good", 1, 0),
-                ReDevBad = ifelse(DF15$q11 == "Mainly bad", 1, 0),
-                ReDevNoOp = ifelse(DF15$q11 == "(VOL) DK/No Opinion", 1, 0),
-                ReDevNA = ifelse(DF15$q11 == "(VOL) NA/Refused", 1, 0))                                                                                  
+                ReDevGood = ifelse(DF15$Q11 == 1, 1, 0),
+                ReDevBad = ifelse(DF15$Q11 == 2, 1, 0),
+                ReDevNoOp = ifelse(DF15$Q11 == 8, 1, 0))                                                                                  
 
 # 12. Would you support or oppose District government spending one hundred
 # million dollars a year, about one percent of the city budget, to provide
 # affordable housing units for low-income residents?
 DF15 <- mutate( DF15, 
-                SupAffHous = ifelse(DF15$q12 == "Support", 1, 0),
-                OppAffHous = ifelse(DF15$q12 == "Oppose", 1, 0),
-                AffHousNoOp = ifelse(DF15$q12 == "(VOL) DK/No Opinion", 1, 0),
-                AffHousvNA = ifelse(DF15$q12 == "(VOL) NA/Refused", 1, 0))  
+                SupAffHous = ifelse(DF15$Q12 == 1, 1, 0),
+                OppAffHous = ifelse(DF15$Q11 == 2, 1, 0),
+                AffHousNoOp = ifelse(DF15$Q11 == 8, 1, 0))  
 
 # 5. Generally speaking, how would you rate the job (ITEM): excellent, good, not
 # so good or poor?
@@ -1470,103 +1461,102 @@ DF15 <- mutate( DF15,
 
 # Police Attitudes
 DF15 <- mutate( DF15, 
-                StApprovePolice = ifelse(DF15$q5a == "Excellent", 1, 0),
-                ApprovePolice = ifelse(DF15$q5a == "Good", 1, 0),
-                NSGPolice = ifelse(DF15$q5a == "NotSoGood", 1, 0),
-                PoorPolice = ifelse(DF15$q5a == "Poor", 1, 0),
-                DKPolice = ifelse(DF15$q5a == "(VOL) DK/No Opinion", 1, 0))  
+                StApprovePolice = ifelse(DF15$Q5A == 1, 1, 0),
+                ApprovePolice = ifelse(DF15$Q5A == 2, 1, 0),
+                NSGPolice = ifelse(DF15$Q5A == 3, 1, 0),
+                PoorPolice = ifelse(DF15$Q5A == 4, 1, 0),
+                DKPolice = ifelse(DF15$Q5A == 8, 1, 0))  
 
 
 # Affordable Housing Actions
 DF15 <- mutate( DF15, 
-                StApproveAffHousing = ifelse(DF15$q5b == "Excellent", 1, 0),
-                ApproveAffHousing = ifelse(DF15$q5b == "Good", 1, 0),
-                NSGAffHousing = ifelse(DF15$q5b == "NotSoGood", 1, 0),
-                PoorAffHousing = ifelse(DF15$q5b == "Poor", 1, 0),
-                DKAffHousing = ifelse(DF15$q5b == "(VOL) DK/No Opinion", 1, 0))
+                StApproveAffHousing = ifelse(DF15$Q5B == 1, 1, 0),
+                ApproveAffHousing = ifelse(DF15$Q5B == 2, 1, 0),
+                NSGAffHousing = ifelse(DF15$Q5B == 3, 1, 0),
+                PoorAffHousing = ifelse(DF15$Q5B == 4, 1, 0),
+                DKAffHousing = ifelse(DF15$Q5B == 8, 1, 0))
 
 # Remedy Homelessness
 DF15 <- mutate( DF15, 
-                StApproveHomelessPolicy = ifelse(DF15$q5c == "Excellent", 1, 0),
-                ApproveHomelessPolicy = ifelse(DF15$q5c == "Good", 1, 0),
-                NSGHomelessPolicy = ifelse(DF15$q5c == "NotSoGood", 1, 0),
-                PoorHomelessPolicy = ifelse(DF15$q5c == "Poor", 1, 0),
-                DKHomelessPolicy = ifelse(DF15$q5c == "(VOL) DK/No Opinion", 1, 0))
+                StApproveHomelessPolicy = ifelse(DF15$Q5C == 1, 1, 0),
+                ApproveHomelessPolicy = ifelse(DF15$Q5C == 2, 1, 0),
+                NSGHomelessPolicy = ifelse(DF15$Q5C == 3, 1, 0),
+                PoorHomelessPolicy = ifelse(DF15$Q5C == 4, 1, 0),
+                DKHomelessPolicy = ifelse(DF15$Q5C == 8, 1, 0))
 
 colnames(DF15)[colnames(DF15) == "racenet"] <- "Race"
 
 # race
 DF15 <- mutate( DF15, 
-                White = ifelse(DF15$q5c == "white", 1, 0),
-                Black = ifelse(DF15$q5c == "black", 1, 0),
-                Hisp = ifelse(DF15$q5c == "Hispanic", 1, 0),
-                Asian = ifelse(DF15$q5c == "Asian", 1, 0),
-                OtherRace = ifelse(DF15$q5c == "Other", 1, 0),
-                DkNoOpnRace = ifelse(DF15$q5c == "DK/No opinion ", 1, 0))
+                White = ifelse(DF15$racenet == 1, 1, 0),
+                Black = ifelse(DF15$racenet == 2, 1, 0),
+                HispWhite = ifelse(DF15$racenet == 3, 1, 0),
+                Asian = ifelse(DF15$racenet == 6, 1, 0),
+                OtherRace = ifelse(DF15$racenet == 7, 1, 0),
+                DkNoOpnRace = ifelse(DF15$racenet == 8, 1, 0))
 
 
-blackres15 <- filter(DF15, Race == "black")
+#blackres15 <- filter(DF15, Race == "black")
 
-colnames(DF14)[colnames(DF14) == "q910"] <- "Age"
+colnames(DF15)[colnames(DF15) == "Q910"] <- "Age"
 
 # ward DNE 2015
 
 # PID
 DF15 <- mutate( DF15, 
-                PIDDem = ifelse(DF15$q5c == "A Democrat", 1, 0),
-                PIDRep = ifelse(DF15$q5c == "A Republican", 1, 0),
-                PIDInd = ifelse(DF15$q5c == "An Independent", 1, 0),
-                PIDOther = ifelse(DF15$q5c == "Other (SPECIFY)", 1, 0),
-                PIDNA = ifelse(DF15$q5c == "(VOL) NA/Refused", 1, 0),
-                PIDKNoOpin = ifelse(DF15$q5c == "(VOL) DK/No Opinion", 1, 0))
+                PIDDem = ifelse(DF15$Q901 == 1, 1, 0),
+                PIDRep = ifelse(DF15$Q901 == 2, 1, 0),
+                PIDInd = ifelse(DF15$Q901 == 3, 1, 0),
+                PIDOther = ifelse(DF15$Q901 == 4, 1, 0),
+                PIDNA = ifelse(DF15$Q901 == 8, 1, 0),
+                PIDKNoOpin = ifelse(DF15$Q901 == 9, 1, 0))
 
 # Do you rent/own
 DF15 <- mutate( DF15, 
-                Rent = ifelse(DF15$q8 == "Renting", 1, 0),
-                Own = ifelse(DF15$q8 == "Owning", 1, 0),
-                HousingOther = ifelse(DF15$q8 == "Other/something else", 1, 0),
-                HousingRefused = ifelse(DF15$q8 == "(VOL) NA/Refused", 1, 0))
+                Rent = ifelse(DF15$Q8 == 1, 1, 0),
+                Own = ifelse(DF15$Q8 == 2, 1, 0),
+                HousingOther = ifelse(DF15$Q8 == 3, 1, 0))
 
 # years in DC 
 DF15 <- mutate( DF15, 
-                InDCLessThan5Yrs = ifelse(DF15$q8 == "0-5 yrs", 1, 0),
-                InDC6to19Yrs = ifelse(DF15$q8 == "6-19 yrs", 1, 0),
-                InDC20to39Yrs = ifelse(DF15$q8 == "20-39 yrs", 1, 0),
-                InDC40PlusYrs = ifelse(DF15$q8 == "40+ yrs", 1, 0),
-                InDCNoOpin = ifelse(DF15$q8 == "No opinion", 1, 0),
-                InDCWholeLifes = ifelse(DF15$q8 == "Whole life", 1, 0))
+                InDCLessThan5Yrs = ifelse(DF15$Q7 == 1, 1, 0),
+                InDC6to19Yrs = ifelse(DF15$Q7 == 2, 1, 0),
+                InDC20to39Yrs = ifelse(DF15$Q7 == 3, 1, 0),
+                InDC40PlusYrs = ifelse(DF15$Q7 == 4, 1, 0),
+                InDCDK = ifelse(DF15$Q7 == 8, 1, 0),
+                InDCWholeLifes = ifelse(DF15$Q7 == 5, 1, 0))
 
 # Fall Behind/ Getting Ahead
 DF15 <- mutate( DF15, 
-                FinFallingBehind = ifelse(DF15$q8 == "Falling behind financially", 1, 0),
-                FinGettingAhead = ifelse(DF15$q8 == "Getting ahead financially", 1, 0),
-                FinMaintain = ifelse(DF15$q8 == "Have just enough money to maintain standard of living", 1, 0),
-                FinNARefused = ifelse(DF15$q8 == "(VOL) NA/Refused", 1, 0),
-                FinDKNoOpin = ifelse(DF15$q8 == "(VOL) DK/No Opinion", 1, 0))
+                FinFallingBehind = ifelse(DF15$Q6 == 1, 1, 0),
+                FinGettingAhead = ifelse(DF15$Q6 == 2, 1, 0),
+                FinMaintain = ifelse(DF15$Q6 == 3, 1, 0),
+                FinNARefused = ifelse(DF15$Q6 == 9, 1, 0),
+                FinDKNoOpin = ifelse(DF15$Q6 == 8, 1, 0))
 
 
 # Gender
 DF15 <- mutate( DF15, 
-                Female = ifelse(DF15$q8 == "Female", 1, 0),
-                Male = ifelse(DF15$q8 == "Male", 1, 0))
+                Female = ifelse(DF15$Q921 == 2, 1, 0),
+                Male = ifelse(DF15$Q921 == 1, 1, 0))
 
 
 # Stay in DC or get pushed out
 DF15 <- mutate( DF15, 
-                FindInDC = ifelse(DF15$q8 == "Could find something in District", 1, 0),
-                HaveToLeaveDC = ifelse(DF15$q8 == "Would have to move to suburbs", 1, 0),
-                DKLeaveStayDC = ifelse(DF15$q8 == "(VOL) DK/No Opinion", 1, 0),
-                NoOpnLeaveStayDC = ifelse(DF15$q8 == "(VOL) NA/Refused", 1, 0))
+                FindInDC = ifelse(DF15$Q9 == 1, 1, 0),
+                HaveToLeaveDC = ifelse(DF15$Q9 == 2, 1, 0),
+                DKLeaveStayDC = ifelse(DF15$Q9 == 8, 1, 0),
+                NoOpnLeaveStayDC = ifelse(DF15$Q9 == 9, 1, 0))
 
 # Income
 DF15 <- mutate( DF15, 
-                IncomeUnder20k = ifelse(DF15$income == "Under 20 thousand dollars", 1, 0),
-                Income20kto35k = ifelse(DF15$income == "20 to under 35 thousand", 1, 0),
-                Income35kto50k = ifelse(DF15$income == "35 to under 50 thousand", 1, 0),
-                Income50kto65k = ifelse(DF15$income == "50 to under 65 thousand", 1, 0),
-                Income65kto100k = ifelse(DF15$income == "65 to under 100 thousand", 1, 0),
-                IncomeOver100k = ifelse(DF15$income == "100 thousand or more", 1, 0),
-                IncomeNA = ifelse(DF15$income == "(VOL) NA/Refused", 1, 0))
+                IncomeUnder20k = ifelse(DF15$income == 1, 1, 0),
+                Income20kto35k = ifelse(DF15$income == 2, 1, 0),
+                Income35kto50k = ifelse(DF15$income == 3, 1, 0),
+                Income50kto65k = ifelse(DF15$income == 4, 1, 0),
+                Income65kto100k = ifelse(DF15$income == 5, 1, 0),
+                IncomeOver100k = ifelse(DF15$income == 6, 1, 0),
+                IncomeNA = ifelse(DF15$income == 9, 1, 0))
 
 ################################################################3
 blackOpinonRD <- 
@@ -1999,7 +1989,7 @@ WardRepresentation<-
   labs(y = "Respondents", x = "Ward", title = "Roper Survey Respondents by Ward 2014") +
   geom_text(aes(label = signif(n/sum(n)*100, digits = 3)), vjust = -0.5) +
   theme_minimal()
-WardRepresentation
+#WardRepresentation
 
 
 # Race_count_byWard <- 
@@ -2034,7 +2024,7 @@ WardsForTables <-
   count()
 wards <- unlist(WardsForTables[1])
 
-popchangeTable <- data.frame(total_PopChange, wards)
+ popchangeTable <- data.frame(total_PopChange, wards)
 PlotPopChange<- 
   ggplot(popchangeTable, aes(x = wards, y = total_PopChange)) +
   geom_col() +
@@ -2042,7 +2032,7 @@ PlotPopChange<-
   labs(y = "Percent Change", x = "Ward", title = "Ward Population Change 1980-2010") +
   geom_text(aes(label = signif(n/sum(n)*100, digits = 3)), vjust = -0.5) +
   theme_minimal()
-PlotPopChange
+#PlotPopChange
 
 ###### Black views of gentrification Graph 2014 ##########################################################################
 
@@ -2069,7 +2059,7 @@ plotBlackview <-
                      labels = c('Good', 'Bad', 'Neither', 'Both', 'Dk/No Opin')) +
   geom_text(aes(label = signif(n/sum(n)*100, digits = 3)), vjust = -0.5) +
   theme_minimal()
-plotBlackview
+#plotBlackview
 
 ###### White Views on gentrification 2014 #########################################################################
 whiteres <- filter(DF14, Race == 1)
@@ -2091,31 +2081,31 @@ plotWhiteview <-
                      labels = c('Good', 'Bad', 'Neither', 'Both', 'Dk/No Opin')) +
   geom_text(aes(label = signif(n/sum(n)*100, digits = 3)), vjust = -0.5) +
   theme_minimal()
-plotWhiteview
+#plotWhiteview
 
 
 BlackWhiteGenPlots <- plot_grid(plotBlackview, plotWhiteview, nrow = 1)
-BlackWhiteGenPlots
+#BlackWhiteGenPlots
 
-# now add the title
-title <- ggdraw() + 
-  draw_label(
-    "Attitudes on Gentrification 2015",
-    fontface = 'bold',
-    x = 0,
-    hjust = 0
-  ) +
-  theme(
-    # add margin on the left of the drawing canvas,
-    # so title is aligned with left edge of first plot
-    plot.margin = margin(0, 0, 0, 7)
-  )
-plot_grid(
-  title, BlackWhiteGenPlots,
-  ncol = 1,
-  # rel_heights values control vertical title margins
-  rel_heights = c(0.1, 1)
-)
+# # now add the title
+# title <- ggdraw() + 
+#   draw_label(
+#     "Attitudes on Gentrification 2015",
+#     fontface = 'bold',
+#     x = 0,
+#     hjust = 0
+#   ) +
+#   theme(
+#     # add margin on the left of the drawing canvas,
+#     # so title is aligned with left edge of first plot
+#     plot.margin = margin(0, 0, 0, 7)
+#   )
+# plot_grid(
+#   title, BlackWhiteGenPlots,
+#   ncol = 1,
+#   # rel_heights values control vertical title margins
+#   rel_heights = c(0.1, 1)
+# )
 ###### Black Opinion Stadium Graph 2014 ##############################################################
 blackOpinonStad <- 
   blackres %>%
@@ -2137,7 +2127,7 @@ plotBlackviewStad <-
                      labels = c('Good', 'Bad', 'Dk/No Opin')) +
   geom_text(aes(label = signif(n/sum(n)*100, digits = 3)), vjust = -0.5) +
   theme_minimal()
-plotBlackviewStad
+#plotBlackviewStad
 
 
 ###### White Opinion Stadium Graph 2014 ##########################################################################
@@ -2208,7 +2198,7 @@ plotBlackviewHT <-
                      labels = c('Good', 'Bad', 'Dk/No Opin')) +
   geom_text(aes(label = signif(n/sum(n)*100, digits = 3)), vjust = -0.5) +
   theme_minimal()
-plotBlackviewHT
+#plotBlackviewHT
 
 ###### White Opinion Building Height Graph 2014 #######################################################################
 
@@ -2289,7 +2279,7 @@ BlackRelativePop<-
   labs(y = "Black Pop/ Total Pop", x = "Ward", title = "Black") +
   geom_text(aes(label = signif(n/sum(n)*100, digits = 3)), vjust = -0.5) +
   theme_minimal()
-BlackRelativePop
+#BlackRelativePop
 
 
 ###### White residents by ward Graph 2014 ########################################################################
@@ -2314,30 +2304,30 @@ WhiteRelativePop<-
   labs(y = "White Pop/ Total Pop", x = "Ward", title = "white") +
   geom_text(aes(label = signif(n/sum(n)*100, digits = 3)), vjust = -0.5) +
   theme_minimal()
-WhiteRelativePop
+#WhiteRelativePop
 
-RaceRelativePop <- plot_grid(BlackRelativePop, WhiteRelativePop, nrow =1)
+#RaceRelativePop <- plot_grid(BlackRelativePop, WhiteRelativePop, nrow =1)
 #RaceRelativePop ### I would like to align the grids a bit better, they are close
 
 # now add the title
-title <- ggdraw() + 
-  draw_label(
-    "Relative Population by Ward",
-    fontface = 'bold',
-    x = 0,
-    hjust = 0
-  ) +
-  theme(
-    # add margin on the left of the drawing canvas,
-    # so title is aligned with left edge of first plot
-    plot.margin = margin(0, 0, 0, 7)
-  )
-plot_grid(                                                      ##### ERRORs HERE
-  title, RaceRelativePop,
-  ncol = 1,
-  # rel_heights values control vertical title margins
-  rel_heights = c(0.1, 1)
-)
+# title <- ggdraw() + 
+#   draw_label(
+#     "Relative Population by Ward",
+#     fontface = 'bold',
+#     x = 0,
+#     hjust = 0
+#   ) +
+#   theme(
+#     # add margin on the left of the drawing canvas,
+#     # so title is aligned with left edge of first plot
+#     plot.margin = margin(0, 0, 0, 7)
+#   )
+# plot_grid(                                                      ##### ERRORs HERE
+#   title, RaceRelativePop,
+#   ncol = 1,
+#   # rel_heights values control vertical title margins
+#   rel_heights = c(0.1, 1)
+# )
 
 
 ###### Rent Burden by Ward Graph Year 2014 ##########################################################################
@@ -2355,7 +2345,7 @@ RentBurdenVis<-
   labs(y = "Rent Burden", x = "Ward", title = "Rent Burden by Ward") +
   geom_text(aes(label = signif(n/sum(n)*100, digits = 3)), vjust = -0.5) +
   theme_minimal()
-RentBurdenVis
+#RentBurdenVis
 
 ###### Home Ownership By Ward Graph Year 2014 ########################################################################
 
@@ -2373,7 +2363,7 @@ OwnPctVis<-
   labs(y = "% Owner Occupied", x = "Ward", title = "Owner Occupied") +
   geom_text(aes(label = signif(n/sum(n)*100, digits = 3)), vjust = -0.5) +
   theme_minimal()
-OwnPctVis
+#OwnPctVis
 
 ###### Rentals By Ward Graph Year 2014 ########################################################################
 RentalByWard <-
@@ -2600,7 +2590,7 @@ plotWhiteview <-
   labs(y = "Percent", x= "views", title = "White Residents Views of Redevelopment")+   ### Shorten title if using cowplot
   geom_text(aes(label = signif(n/sum(n)*100, digits = 3)), vjust = -0.5) +
   theme_minimal()
-plotWhiteview
+#plotWhiteview
 
 
 ## Cowplot them
@@ -2632,7 +2622,7 @@ plot_grid(
 ## Create new data frame of percents of respondents 
 # because the number of respondents differs for each survey
 
-## Attitudes Generally 02 &  14
+###### Attitudes Towards Gentrification Generally 02 &  14 ######
 # Total Attitudes
 GenDV02 <- DF02 %>%
   count(Q32)
@@ -2649,7 +2639,8 @@ GenDV02$Q32[GenDV02$Q32== 8] <- "DK No Opinion"
 plotGenDV02 <- 
   ggplot(GenDV02, aes(x = Q32, y = n/sum(n)*100)) +
   geom_col() +
-  scale_y_continuous(expand = expansion(mult = c(0, 1))) +
+  #scale_y_continuous(expand = expansion(mult = c(0, 1))) +
+  scale_y_continuous(limits=c(0, 100))+
   labs(y = "Percent", x= "views", title = " Residents Views of Redevelopment 2002")+    ### Shorten title if using cowplot
   geom_text(aes(label = signif(n/sum(n)*100, digits = 3)), vjust = -0.5) +
   theme_minimal()
@@ -2672,7 +2663,7 @@ GenDV14$q31[GenDV14$q31== 8] <- "DK No Opinion"
 plotGenDV14 <- 
   ggplot(GenDV14, aes(x = q31, y = n/sum(n)*100)) +
   geom_col() +
-  scale_y_continuous(expand = expansion(mult = c(0, 1))) +
+  scale_y_continuous(limits=c(0, 100))+
   labs(y = "Percent", x= "views", title = " Residents Views of Redevelopment 2014")+    ### Shorten title if using cowplot
   geom_text(aes(label = signif(n/sum(n)*100, digits = 3)), vjust = -0.5) +
   theme_minimal()
@@ -2685,6 +2676,7 @@ GenDV02and14
 
 
 ### Gentrification views by Race
+## Black views in 2002
 Black02 <- filter(DF02, Black == 1)
 GenDVBlack02 <- 
   Black02 %>%
@@ -2698,12 +2690,14 @@ GenDVBlack02$Q32[GenDVBlack02$Q32== 3] <- "Neither"
 GenDVBlack02$Q32[GenDVBlack02$Q32== 4] <- "Both"
 GenDVBlack02$Q32[GenDVBlack02$Q32== 8] <- "DK No Opinion"
 
+#install.packages("gridExtra")
+library(gridExtra)
+library(scales)
 
 plotGenDVBlack02 <- 
   ggplot(GenDVBlack02, aes(x = Q32, y = n/sum(n)*100)) +
   geom_col() +
-  # scale_y_continuous(expand = expansion(mult = c(0, 1))) +
-  scale_y_continuous(labels = percent_format(), limits=c(0,1)) +
+  scale_y_continuous(limits=c(0, 100))+
   labs(y = "Percent", x= "views", title = "Black Residents Views of Redevelopment 2002")+    ### Shorten title if using cowplot
   geom_text(aes(label = signif(n/sum(n)*100, digits = 3)), vjust = -0.5) +
   theme_minimal()
@@ -2727,38 +2721,450 @@ GenDVWhite02$Q32[GenDVWhite02$Q32== 8] <- "DK No Opinion"
 plotGenDVWhite02 <- 
   ggplot(GenDVWhite02, aes(x = Q32, y = n/sum(n)*100)) +
   geom_col() +
- # scale_y_continuous(expand = expansion(mult = c(0, 1))) +
-  scale_y_continuous(labels = percent_format(), limits=c(0,1)) +
+  scale_y_continuous(limits=c(0, 100))+
   labs(y = "Percent", x= "views", title = "White Residents Views of Redevelopment 2002")+    ### Shorten title if using cowplot
   geom_text(aes(label = signif(n/sum(n)*100, digits = 3)), vjust = -0.5) +
   theme_minimal()
 plotGenDVWhite02
 
 
-## Cowplot them
-GenDV02ByRace <- plot_grid(plotGenDVBlack02, plotGenDVWhite02, 
-                          nrow = 1)
+## Cowplot 2002
+GenDV02ByRace <- plot_grid(plotGenDVBlack02, plotGenDVWhite02, nrow = 1)        # Try using Facet Wrap
 GenDV02ByRace
-####### Support Gen 
 
 
+## Black views in 2014
+Black14 <- filter(DF14, Black == 1)
+GenDVBlack14 <- 
+  Black14 %>%
+  count(q31)
+
+# Creates character out of column 1 not double
+GenDVBlack14$q31 <- as.numeric(GenDVBlack14$q31)
+GenDVBlack14$q31[GenDVBlack14$q31== 1] <- "Mostly Good"
+GenDVBlack14$q31[GenDVBlack14$q31== 2] <- "Mostly Bad"
+GenDVBlack14$q31[GenDVBlack14$q31== 3] <- "Neither"
+GenDVBlack14$q31[GenDVBlack14$q31== 4] <- "Both"
+GenDVBlack14$q31[GenDVBlack14$q31== 8] <- "DK No Opinion"
+
+#install.packages("gridExtra")
+
+plotGenDVBlack14 <- 
+  ggplot(GenDVBlack14, aes(x = q31, y = n/sum(n)*100)) +
+  geom_col() +
+  scale_y_continuous(limits=c(0, 100))+
+  labs(y = "Percent", x= "views", title = "Black Residents Views of Redevelopment 2014")+    ### Shorten title if using cowplot
+  geom_text(aes(label = signif(n/sum(n)*100, digits = 3)), vjust = -0.5) +
+  theme_minimal()
+plotGenDVBlack14
+
+
+# White Residents Views 2002
+White14 <- filter(DF14, White == 1)
+GenDVWhite14 <- 
+  White14 %>%
+  count(q31)
+
+GenDVWhite14$q31 <- as.numeric(GenDVWhite14$q31)
+GenDVWhite14$q31[GenDVWhite14$q31== 1] <- "Mostly Good"
+GenDVWhite14$q31[GenDVWhite14$q31== 2] <- "Mostly Bad"
+GenDVWhite14$q31[GenDVWhite14$q31== 3 ] <- "Neither"
+#GenDVWhite14$q31[GenDVWhite14$q31== 4] <- "Both"
+#GenDVWhite14$q31[GenDVWhite14$q31== 8] <- "DK No Opinion"
+
+
+plotGenDVWhite14 <- 
+  ggplot(GenDVWhite14, aes(x = q31, y = n/sum(n)*100)) +
+  geom_col() +
+  scale_y_continuous(limits=c(0, 100))+
+  labs(y = "Percent", x= "views", title = "White Residents Views of Redevelopment 2014")+    ### Shorten title if using cowplot
+  geom_text(aes(label = signif(n/sum(n)*100, digits = 3)), vjust = -0.5) +
+  theme_minimal()
+plotGenDVWhite14
+
+## Cowplot 2014
+GenDV14ByRace <- plot_grid(plotGenDVBlack14, plotGenDVWhite14, nrow = 1)        # Try using Facet Wrap
+GenDV14ByRace
+
+## Cowplot 2002 and 2014
+
+GenDVByRace0214 <- plot_grid(plotGenDVBlack02, plotGenDVBlack14, plotGenDVWhite02, plotGenDVWhite14, nrow=2)
+GenDVByRace0214
+
+# Facet wrap
+max_length <- max(c(nrow(DF02), nrow(DF14)))
+
+#Build Dataframe of General results
+DVAttitudesGenerally <- data.frame(Q02 = c(as.numeric(DF02$Q32),
+                           rep(NA, max_length-nrow(DF02))), 
+                   Race02 = c(as.character(DF02$RACE),
+                              rep(NA, max_length-nrow(DF02))),
+                   Q14 = c(DF14$q31,
+                           rep(NA, max_length-nrow(DF14))),
+                   Race14 = c(DF14$Race,
+                              rep(NA, max_length-nrow(DF14))))
+
+
+###### Table for General Support for Gentrification
+GenDVSup02Wht <- c(sum(GenDVWhite02[1,2])/sum(GenDVWhite02$n)*100)
+GenDVSup14Wht <- c(sum(GenDVWhite14[1,2])/sum(GenDVWhite14$n)*100)
+GenDVSup02Blk <- c(sum(GenDVBlack02[1,2])/sum(GenDVBlack02$n)*100)
+GenDVSup14Blk <- c(sum(GenDVBlack14[1,2])/sum(GenDVBlack14$n)*100)
+
+GenDVSup0214 <- data.frame(c(2002, 2014, 2002, 2014),
+                           c(GenDVSup02Wht, GenDVSup14Wht, GenDVSup02Blk, GenDVSup14Blk), 
+                           c("White", "White", "Black", "Black"))
+names(GenDVSup0214) <- c("Year", "Support", "Race")
+
+PlotGenDVSup0214 <- 
+  ggplot(GenDVSup0214, aes(x = Year, y = Support, fill = Race)) +
+  geom_col(position='dodge', stat='identity') +
+  scale_x_continuous(breaks=seq(2000,2014,14))+ 
+  scale_y_continuous(limits = c(0,80)) +
+  ggtitle("Gentrification is Generally Good") +
+  ylab("Percent Agree")+
+  xlab("Year of Survey ")+
+  theme_minimal() 
+PlotGenDVSup0214
+
+
+###### Table for General Opposition to Gentrification #####
+GenDVOpp02Wht <- c(sum(GenDVWhite02[2,2])/sum(GenDVWhite02$n)*100)
+GenDVOpp14Wht <- c(sum(GenDVWhite14[2,2])/sum(GenDVWhite14$n)*100)
+GenDVOpp02Blk <- c(sum(GenDVBlack02[2,2])/sum(GenDVBlack02$n)*100)
+GenDVOpp14Blk <- c(sum(GenDVBlack14[2,2])/sum(GenDVBlack14$n)*100)
+
+GenDVOpp0214 <- data.frame(c(2002, 2014, 2002, 2014),
+                           c(GenDVOpp02Wht, GenDVOpp14Wht, GenDVOpp02Blk, GenDVOpp14Blk), 
+                           c("White", "White", "Black", "Black"))
+names(GenDVOpp0214) <- c("Year", "Support", "Race")
+
+PlotGenDVOpp0214 <- 
+  ggplot(GenDVOpp0214, aes(x = Year, y = Support, fill = Race)) +
+  geom_col(position='dodge', stat='identity') +
+  scale_y_continuous(limits = c(0,50)) +
+  scale_x_continuous(breaks=seq(2000,2014,14))+ 
+  ggtitle("Gentrification is Generally Bad") +
+  ylab("Percent Agree")+
+  xlab("Year of Survey ")+
+  theme_minimal() 
+PlotGenDVOpp0214
+
+GenDVByRace0214 <- plot_grid(PlotGenDVSup0214, PlotGenDVOpp0214,nrow= 1)
+GenDVByRace0214
+###### Attitudes for People like You 00, 06, 14, & 15 #####
+####### Support Gen for people like you #####
+# 2000
+GenDV00 <- DF00 %>%
+  count(q21_7)
+
+plotGenDV00 <- 
+  ggplot(GenDV00, aes(x = q21_7, y = n/sum(n)*100)) +
+  geom_col() +
+  scale_y_continuous(limits=c(0, 100))+
+  labs(y = "Percent", x= "views", title = "Development for People Like You 2000")+    ### Shorten title if using cowplot
+  geom_text(aes(label = signif(n/sum(n)*100, digits = 3)), vjust = -0.5) +
+  theme_minimal()
+plotGenDV00
+
+# 2006
+GenDV06 <- DF06 %>%
+  count(q20g)
+
+# Creates character out of column 1 not double
+GenDV06$q20g <- as.numeric(GenDV06$q20g)
+GenDV06$q20g[GenDV06$q20g== 1] <- "Mostly Good"
+GenDV06$q20g[GenDV06$q20g== 2] <- "Mostly Bad"
+GenDV06$q20g[GenDV06$q20g== 3] <- "Neither"
+GenDV06$q20g[GenDV06$q20g== 4] <- "Both"
+GenDV06$q20g[GenDV06$q20g== 8] <- "DK"
+
+plotGenDV06 <- 
+  ggplot(GenDV06, aes(x = q20g, y = n/sum(n)*100)) +
+  geom_col() +
+  scale_y_continuous(limits=c(0, 100))+
+  labs(y = "Percent", x= "views", title = "Development for People Like You 2006")+    ### Shorten title if using cowplot
+  geom_text(aes(label = signif(n/sum(n)*100, digits = 3)), vjust = -0.5) +
+  theme_minimal()
+plotGenDV06
+
+# 2014
+GenDV14 <- DF14 %>%
+  count(q32a)
+
+# Creates character out of column 1 not double
+GenDV14$q32a <- as.numeric(GenDV14$q32a)
+GenDV14$q32a[GenDV14$q32a== 1] <- "Mostly Good"
+GenDV14$q32a[GenDV14$q32a== 2] <- "Mostly Bad"
+GenDV14$q32a[GenDV14$q32a== 8] <- "DK"
+
+
+# Creates character out of column 1 not double
+#GenDV14$q32a <- as.numeric(GenDV14$q32a)
+GenDV14$q32a[GenDV14$q32a== 2] <- "Mostly Bad"
+GenDV14$q32a[GenDV14$q32a== 3] <- "Neither"
+GenDV14$q32a[GenDV14$q32a== 4] <- "Both"
+GenDV14$q32a[GenDV14$q32a== 8] <- "DK"
+
+plotGenDV14 <- 
+  ggplot(GenDV14, aes(x = q32a, y = n/sum(n)*100)) +
+  geom_col() +
+  scale_y_continuous(limits=c(0, 100))+
+  labs(y = "Percent", x= "views", title = "Development for People Like You 2014")+    ### Shorten title if using cowplot
+  geom_text(aes(label = signif(n/sum(n)*100, digits = 3)), vjust = -0.5) +
+  theme_minimal()
+plotGenDV14
+
+# 2015 for ppl like you
+GenDV15 <- DF15 %>%
+  count(q11)
+
+# Creates character out of column 1 not double
+#GenDV15$q11 <- as.numeric(GenDV15$q11)
+GenDV15$q11[GenDV15$q11== 1] <- "Mostly Good"
+GenDV15$q11[GenDV15$q11== 2] <- "Mostly Bad"
+GenDV15$q11[GenDV15$q11== 8] <- "DK"
+
+plotGenDV15 <- 
+  ggplot(GenDV15, aes(x = q11, y = n/sum(n)*100)) +
+  geom_col() +
+  scale_y_continuous(limits=c(0, 100))+
+  labs(y = "Percent", x= "views", title = "Development for People Like You 2015")+    ### Shorten title if using cowplot
+  geom_text(aes(label = signif(n/sum(n)*100, digits = 3)), vjust = -0.5) +
+  theme_minimal()
+plotGenDV15
+
+
+# Grid of People like Me
+PeopleLikeMe00to14 <- plot_grid(plotGenDV00, plotGenDV06, plotGenDV14, plotGenDV15, nrow=2)
+PeopleLikeMe00to14
+
+max_length <- max(c(nrow(DF00), nrow(DF06), nrow(DF14), nrow(DF15)))
+test <- data.frame(Q00 = c(DF00$q21_7,
+                            rep(NA, max_length-nrow(DF00))), 
+                   Race00 = c(DF00$race,
+                            rep(NA, max_length-nrow(DF00))),
+                   Q06 = c(as.character(DF06$q20g),
+                            rep(NA, max_length-nrow(DF06))),
+                   Race06 = c(as.character(DF06$q918),
+                            rep(NA, max_length-nrow(DF06))),
+                   Q14 = c(DF14$q32a,
+                            rep(NA, max_length-nrow(DF14))),
+                   Race14 = c(DF14$Race,
+                            rep(NA, max_length-nrow(DF14))),
+                   Q15 = c(DF15$q11, 
+                            rep(NA, max_length-nrow(DF15))),
+                   Race15 = c(DF15$Race,
+                            rep(NA, max_length-nrow(DF15))))
+
+# not sure yet how to make this a facet wrap with multiple graphs. 
+# I don't know how to pair race and the results
 ###### Do not Support
 
-###### Support Black v White 
+###### Support Black v White for people like you #######
+# 2000 BLK for people like you
+blackres00 <- filter(DF00, Black == 1)
+
+BlkDV00 <- 
+  blackres00 %>%
+  count(q21_7)
+
+plotBlkDV00 <- 
+  ggplot(BLKDV00, aes(x = q21_7, y = n/sum(n)*100)) +
+  geom_col() +
+  scale_y_continuous(limits=c(0, 100))+
+  labs(y = "Percent", x= "views", title = "DV for People Like You 2000--Black")+    ### Shorten title if using cowplot
+  geom_text(aes(label = signif(n/sum(n)*100, digits = 3)), vjust = -0.5) +
+  theme_minimal()
+plotBlkDV00
+
+# 2006 BLK for people like you
+blackres06 <- filter(DF06, RaceBlack == 1)
+BlkDV06 <- blackres06 %>%
+  count(q20g)
+
+# Creates character out of column 1 not double
+BlkDV06$q20g <- as.numeric(BlkDV06$q20g)
+BlkDV06$q20g[BlkDV06$q20g== 1] <- "Mostly Good"
+BlkDV06$q20g[BlkDV06$q20g== 2] <- "Mostly Bad"
+BlkDV06$q20g[BlkDV06$q20g== 3 |GenDV06$q20g== 4] <- "Neither/both"
+#GenDV06$q20g[GenDV06$q20g== 4] <- "Both"
+BlkDV06$q20g[BlkDV06$q20g== 8] <- "DK"
+
+plotBlkDV06 <- 
+  ggplot(BlkDV06, aes(x = q20g, y = n/sum(n)*100)) +
+  geom_col() +
+  scale_y_continuous(limits=c(0, 100))+
+  labs(y = "Percent", x= "views", title = "DV for People Like You 2006--Black")+    ### Shorten title if using cowplot
+  geom_text(aes(label = signif(n/sum(n)*100, digits = 3)), vjust = -0.5) +
+  theme_minimal()
+plotBlkDV06
+
+# 2014 BLK for people like you
+blackres14 <- filter(DF14, Black == 1)
+
+BlkDV14 <- blackres14 %>%
+  count(q32a)
+
+# Creates character out of column 1 not double
+BlkDV14$q32a <- as.numeric(BlkDV14$q32a)
+BlkDV14$q32a[BlkDV14$q32a== 1] <- "Mostly Good"
+BlkDV14$q32a[BlkDV14$q32a== 2] <- "Mostly Bad"
+BlkDV14$q32a[BlkDV14$q32a== 8] <- "DK"
 
 
-### Attitudes for People like You 00, 06, 14, & 15
-####### Support Gen 
+plotBlkDV14 <- 
+  ggplot(BlkDV14, aes(x = q32a, y = n/sum(n)*100)) +
+  geom_col() +
+  scale_y_continuous(limits=c(0, 100))+
+  labs(y = "Percent", x= "views", title = "DV for People Like You 2014--Black")+    ### Shorten title if using cowplot
+  geom_text(aes(label = signif(n/sum(n)*100, digits = 3)), vjust = -0.5) +
+  theme_minimal()
+plotBlkDV14
+
+# 2015 BLK for ppl like you
+blackres15 <- filter(DF15, Black == 1)
+
+BlkDV15 <- blackres15 %>%
+  count(Q11)
+
+# Creates character out of column 1 not double
+#GenDV15$q11 <- as.numeric(GenDV15$q11)
+BlkDV15$q11[BlkDV15$Q11== 1] <- "Mostly Good"
+BlkDV15$q11[BlkDV15$Q11== 2] <- "Mostly Bad"
+BlkDV15$q11[BlkDV15$Q11== 8] <- "DK"
+
+plotBlkDV15 <- 
+  ggplot(BlkDV15, aes(x = q11, y = n/sum(n)*100)) +
+  geom_col() +
+  scale_y_continuous(limits=c(0, 100))+
+  labs(y = "Percent", x= "views", title = "DV for People Like You 2015--Black")+    ### Shorten title if using cowplot
+  geom_text(aes(label = signif(n/sum(n)*100, digits = 3)), vjust = -0.5) +
+  theme_minimal()
+plotBlkDV15
 
 
+# Grid of People like Me
+PeopleLikeMe00to14Blk <- plot_grid(plotBlkDV00, plotBlkDV06, plotBlkDV14, plotBlkDV15, nrow=2)
+PeopleLikeMe00to14Blk
 
 
-###### Do not Support
+## line graph 
+BDVSup00Blk <- c(sum(BlkDV00[3,2])/sum(BlkDV00$n)*100)
+BDVSup06Blk <- c(sum(BlkDV06[1,2])/sum(BlkDV06$n)*100)
+BDVSup14Blk <- c(sum(BlkDV14[1,2])/sum(BlkDV14$n)*100)
+BDVSup15Blk <- c(sum(BlkDV15[1,2])/sum(BlkDV15$n)*100)
 
-###### Support Black v White 
+
+# 2000 Wht for people like you
+whiteres00 <- filter(DF00, White == 1)
+
+WhtDV00 <- 
+  whiteres00 %>%
+  count(q21_7)
+
+plotWhtDV00 <- 
+  ggplot(WhtDV00, aes(x = q21_7, y = n/sum(n)*100)) +
+  geom_col() +
+  scale_y_continuous(limits=c(0, 100))+
+  labs(y = "Percent", x= "views", title = "DV for People Like You 2000--White")+    ### Shorten title if using cowplot
+  geom_text(aes(label = signif(n/sum(n)*100, digits = 3)), vjust = -0.5) +
+  theme_minimal()
+plotWhtDV00
+
+# 2006 Whte for people like you
+whtieres06 <- filter(DF06, RaceWhite == 1)
+WhtDV06 <- whtieres06 %>%
+  count(q20g)
+
+# Creates character out of column 1 not double
+WhtDV06$q20g <- as.numeric(WhtDV06$q20g)
+WhtDV06$q20g[WhtDV06$q20g== 1] <- "Mostly Good"
+WhtDV06$q20g[WhtDV06$q20g== 2] <- "Mostly Bad"
+WhtDV06$q20g[WhtDV06$q20g== 3 |GenDV06$q20g== 4] <- "Neither/both"
+#GenDV06$q20g[GenDV06$q20g== 4] <- "Both"
+WhtDV06$q20g[WhtDV06$q20g== 8] <- "DK"
+
+plotWhtDV06 <- 
+  ggplot(WhtDV06, aes(x = q20g, y = n/sum(n)*100)) +
+  geom_col() +
+  scale_y_continuous(limits=c(0, 100))+
+  labs(y = "Percent", x= "views", title = "DV for People Like You 2006--White")+    ### Shorten title if using cowplot
+  geom_text(aes(label = signif(n/sum(n)*100, digits = 3)), vjust = -0.5) +
+  theme_minimal()
+plotWhtDV06
+
+# 2014 BLK for people like you
+whiteres14 <- filter(DF14, White == 1)
+
+WhtDV14 <- whiteres14 %>%
+  count(q32a)
+
+# Creates character out of column 1 not double
+WhtDV14$q32a <- as.numeric(WhtDV14$q32a)
+WhtDV14$q32a[WhtDV14$q32a== 1] <- "Mostly Good"
+WhtDV14$q32a[WhtDV14$q32a== 2] <- "Mostly Bad"
+WhtDV14$q32a[WhtDV14$q32a== 8] <- "DK"
 
 
-### Your neighborhood 02, 06, 08
+plotWhtDV14 <- 
+  ggplot(WhtDV14, aes(x = q32a, y = n/sum(n)*100)) +
+  geom_col() +
+  scale_y_continuous(limits=c(0, 100))+
+  labs(y = "Percent", x= "views", title = "DV for People Like You 2014--White")+    ### Shorten title if using cowplot
+  geom_text(aes(label = signif(n/sum(n)*100, digits = 3)), vjust = -0.5) +
+  theme_minimal()
+plotWhtDV14
+
+# 2015 BLK for ppl like you
+whiteres15 <- filter(DF15, White == 1)
+
+WhtDV15 <- whiteres15 %>%
+  count(Q11)
+
+# Creates character out of column 1 not double
+#GenDV15$q11 <- as.numeric(GenDV15$q11)
+WhtDV15$q11[WhtDV15$q11== 1] <- "Mostly Good"
+WhtDV15$q11[WhtDV15$q11== 2] <- "Mostly Bad"
+WhtDV15$q11[WhtDV15$q11== 8 | is.na(WhtDV15$q11)] <- "DK"
+
+plotWhtDV15 <- 
+  ggplot(WhtDV15, aes(x = q11, y = n/sum(n)*100)) +
+  geom_col() +
+  scale_y_continuous(limits=c(0, 100))+
+  labs(y = "Percent", x= "views", title = "DV for People Like You 2015--White")+    ### Shorten title if using cowplot
+  geom_text(aes(label = signif(n/sum(n)*100, digits = 3)), vjust = -0.5) +
+  theme_minimal()
+plotWhtDV15
+
+
+# Grid of People like Me
+PeopleLikeMe00to14Wht <- plot_grid(plotWhtDV00, plotWhtDV06, plotWhtDV14, plotWhtDV15, nrow=2)
+PeopleLikeMe00to14Wht
+
+## line graph 
+BDVSup00Wht <- c(sum(WhtDV00[3,2])/sum(WhtDV00$n)*100)
+BDVSup06Wht <- c(sum(WhtDV06[1,2])/sum(WhtDV06$n)*100)
+BDVSup14Wht <- c(sum(WhtDV14[1,2])/sum(WhtDV14$n)*100)
+BDVSup15Wht <- c(sum(WhtDV15[1,2])/sum(WhtDV15$n)*100)
+
+DV4PplLikeMe <- data.frame(c(2000, 2006, 2014, 2015, 2000, 2006, 2014, 2015),
+                           c(BDVSup00Wht, BDVSup06Wht, BDVSup14Wht, BDVSup15Wht, BDVSup00Blk, BDVSup06Blk, BDVSup14Blk, BDVSup15Blk), 
+                           c("White", "White", "White", "White", "Black", "Black", "Black", "Black"))
+names(DV4PplLikeMe) <- c("Year", "Support", "Race")
+
+PlotDV4PplLikeMe <- 
+  ggplot(DV4PplLikeMe, aes(x = Year, y = Support, color = Race)) +
+  geom_line() +
+  scale_y_continuous(limits = c(0,100)) +
+  ggtitle("Gentrification Benefits People Like Me") +
+  ylab("Percent Agree")+
+  xlab("Year of Survey ")+
+  theme_minimal() 
+  
+PlotDV4PplLikeMe
+
+###### Your neighborhood 02, 06, 08#######
 ####### Support Gen 
 
 ###### Do not Support
@@ -2772,4 +3178,8 @@ GenDV02ByRace
 ### Your NBHD
 
 
+###### Regressions #######
+library(stargazer)
 
+## The only common controls for all years are race and gender
+m1 <-  lm(calls_311 ~ pctBlack2011_15 , data= DF14)
