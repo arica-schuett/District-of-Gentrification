@@ -278,7 +278,9 @@ DF02 <- mutate(DF02,
 colnames(DF02)[colnames(DF02) == "AGE"] <- "Age"
 colnames(DF02)[colnames(DF02) == "Q47"] <- "TimeInDC"
 
-
+DF02 <- mutate( DF02, 
+                Less1YearinDC = ifelse(DF02$TimeInDC == 0, 1, 0),
+                WholeLifeinDC = ifelse(DF02$TimeInDC  == 97, 1, 0))
 
 # Do you think race relations in the district are getting better/worse or staying the same Q14
 DF02 <- mutate(DF02, 
@@ -351,14 +353,14 @@ DF06 <- mutate(DF06,
 
 # Gentrification is good for...your neighborhood
 DF06 <- mutate(DF06, 
-               DevGood4Nbhd = ifelse(DF06$q20f == 1, 1, 0), 
+               DevGood4Nhbd = ifelse(DF06$q20f == 1, 1, 0), 
                DevBad4Nbhd = ifelse(DF06$q20f == 2, 1, 0), 
-               DevNoOpinNbhd = ifelse(DF06$q20f == 8, 1, 0))
+               DK_NoOpn4Nhbd = ifelse(DF06$q20f == 8, 1, 0))
 
 # Gentrification is good for...people like you
 DF06 <- mutate(DF06, 
-               DevGood4PeopleLikeU = ifelse(DF06$q20g == 1, 1, 0), 
-               DevBad4PeopleLikeU = ifelse(DF06$q20g == 2, 1, 0), 
+               DevGood4PplYou = ifelse(DF06$q20g == 1, 1, 0), 
+               DevBad4PplYou = ifelse(DF06$q20g == 2, 1, 0), 
                DK_NoOpn4PplYou = ifelse(DF06$q20g == 8, 1, 0))
 ## Income
 DF06<- mutate(DF06, 
@@ -506,6 +508,11 @@ DF06 <- mutate(DF06,
 
 colnames(DF06)[colnames(DF06) == "q910"] <- "Age"
 colnames(DF06)[colnames(DF06) == "q39"] <- "TimeInDC"
+colnames(DF06)[colnames(DF06) == "q918"] <- "Race"
+
+DF06 <- mutate( DF06, 
+                Less1YearinDC = ifelse(DF06$TimeInDC == 0, 1, 0),
+                WholeLifeinDC = ifelse(DF06$TimeInDC  == 97, 1, 0))
 
 #colnames(DF06)[colnames(DF06) == "q20b"] <- "Dev4Blks"
 
@@ -666,7 +673,7 @@ DF08 <- mutate(DF08,
 DF08 <- mutate(DF08, 
                GettingAhead = ifelse(DF08$Q39 == 1, 1, 0), 
                Maintain = ifelse(DF08$Q39 == 2, 1, 0), 
-               FallBedhind = ifelse(DF08$Q39 == 3, 1, 0))
+               FallBehind = ifelse(DF08$Q39 == 3, 1, 0))
 
 # ward
 DF08 <- mutate(DF08, 
@@ -1343,10 +1350,17 @@ DF11 <- mutate( DF11,
                 DK_Move = ifelse(DF11$qn21  == "Don't know", 1, 0))
 
 # Age
-colnames(DF11)[colnames(DF11) == "qnd8"] <- "Age"
+colnames(DF11)[colnames(DF11) == "qnd9"] <- "Age"
+DF11$Age <- as.numeric(DF11$Age)
+
 
 #Time in DC
 colnames(DF11)[colnames(DF11) == "qnd1"] <- "TimeInDC"
+DF11 <- mutate( DF11, 
+                Less1YearinDC = ifelse(DF11$TimeInDC == "Less than one year", 1, 0),
+                RefuedTimeinDC = ifelse(DF11$TimeInDC  == "Refused", 1, 0),
+                WholeLifeinDC = ifelse(DF11$TimeInDC  == "Whole life", 1, 0))
+
 
 # Gender
 DF11 <- mutate( DF11, 
@@ -1363,6 +1377,16 @@ DF14 <- `2014-01-14_DC_ROPER`
 DF14[DF14 == 98] <- NA
 #Rename some columns
 colnames(DF14)[colnames(DF14) == "q1"] <- "Party"
+colnames(DF14)[colnames(DF14) == "racenet"] <- "Race"
+colnames(DF14)[colnames(DF14) == "q2"] <- "Party_NotReg"
+colnames(DF14)[colnames(DF14) == "q910"] <- "Age"
+colnames(DF14)[colnames(DF14) == "q25"] <- "TimeInDC"
+
+DF14 <- mutate( DF14, 
+                Less1YearinDC = ifelse(DF14$TimeInDC == 0, 1, 0),
+                RefuedTimeinDC = ifelse(DF14$TimeInDC  == 99, 1, 0),
+                WholeLifeinDC = ifelse(DF14$TimeInDC  == 97, 1, 0))
+
 
 #Create Binary Variables for survey responses 
 # q905
@@ -1579,6 +1603,9 @@ DF14 <- mutate(DF14,
 DF14 <- mutate( DF14, 
                 Female = ifelse(DF14$q921 == 2, 1, 0),
                 Male = ifelse(DF14$q921 == 1, 1, 0))
+
+DF14$q25[GenDV02$Q32== 1] <- "Mostly Good"
+
 ###### 2015 #####################################################################################################################################################
 library(haven)
 library(tidyverse)
@@ -2353,22 +2380,22 @@ PeopleLikeMe00to14 <- plot_grid(plotGenDV00, plotGenDV06, plotGenDV14, plotGenDV
 #PeopleLikeMe00to14
 
 max_length <- max(c(nrow(DF00), nrow(DF06), nrow(DF14), nrow(DF15)))
-test <- data.frame(Q00 = c(DF00$q21_7,
-                           rep(NA, max_length-nrow(DF00))), 
-                   Race00 = c(DF00$race,
-                              rep(NA, max_length-nrow(DF00))),
-                   Q06 = c(as.character(DF06$q20g),
-                           rep(NA, max_length-nrow(DF06))),
-                   Race06 = c(as.character(DF06$q918),
-                              rep(NA, max_length-nrow(DF06))),
-                   Q14 = c(DF14$q32a,
-                           rep(NA, max_length-nrow(DF14))),
-                   Race14 = c(DF14$Race,
-                              rep(NA, max_length-nrow(DF14))),
-                   Q15 = c(DF15$Q11, 
-                           rep(NA, max_length-nrow(DF15))),
-                   Race15 = c(DF15$Race,
-                              rep(NA, max_length-nrow(DF15))))
+# test <- data.frame(Q00 = c(DF00$q21_7,
+#                            rep(NA, max_length-nrow(DF00))), 
+#                    Race00 = c(DF00$race,
+#                               rep(NA, max_length-nrow(DF00))),
+#                    Q06 = c(as.character(DF06$q20g),
+#                            rep(NA, max_length-nrow(DF06))),
+#                    Race06 = c(as.character(DF06$q918),
+#                               rep(NA, max_length-nrow(DF06))),
+#                    Q14 = c(DF14$q32a,
+#                            rep(NA, max_length-nrow(DF14))),
+#                    Race14 = c(DF14$Race,
+#                               rep(NA, max_length-nrow(DF14))),
+#                    Q15 = c(DF15$Q11, 
+#                            rep(NA, max_length-nrow(DF15))),
+#                    Race15 = c(DF15$Race,
+#                               rep(NA, max_length-nrow(DF15))))
 
 # not sure yet how to make this a facet wrap with multiple graphs. 
 # I don't know how to pair race and the results
@@ -3345,7 +3372,7 @@ m2002D <-  lm(DevMainlyGood ~ Black + Female + Rent + Ward2 + Ward3 + Ward4+ War
 
 ## Dev Good for People Like Me 2006 
 m2006A <-  lm(DevGood4PeopleLikeU ~ Black +  Ward2 + Ward3 + Ward4+ Ward5 + Ward6 + Ward7 + Ward8  + Age + Rent + Female +income +edubreak, data= DF06)
-m2006B <-  lm(DevGood4PeopleLikeU ~ Black +  Ward2 + Ward3 + Ward4+ Ward5 + Ward6 + Ward7 + Ward8  + Age + Rent +Party+ Female +income +edubreak, data= DF06)
+#m2006B <-  lm(DevGood4PeopleLikeU ~ Black +  Ward2 + Ward3 + Ward4+ Ward5 + Ward6 + Ward7 + Ward8  + Age + Rent +Party+ Female +income +edubreak, data= DF06)
 #stargazer(m2006A, m2006B)
 
 m2006C <-  lm(DevGood4PeopleLikeU ~ Black +  Ward2 + Ward3 + Ward4+ Ward5 + Ward6 + Ward7 + Ward8  + Age + Rent + Female + HighIncome + CollegeGrad + Black*HighIncome, data= DF06)
@@ -3353,30 +3380,30 @@ m2006C <-  lm(DevGood4PeopleLikeU ~ Black +  Ward2 + Ward3 + Ward4+ Ward5 + Ward
 
 
 ## 2008  Development is mainly good for the city Q909= edu
-m2008A <- lm(DevGood4City ~ Black +  Ward2 + Ward3 + Ward4+ Ward5 + Ward6 + Ward7 + Ward8  + Age + Rent + Female + ForcedMoveLikely + HighIncome +Q909, data= DF08)
+#m2008A <- lm(DevGood4City ~ Black +  Ward2 + Ward3 + Ward4+ Ward5 + Ward6 + Ward7 + Ward8  + Age + Rent + Female + ForcedMoveLikely + HighIncome +Q909, data= DF08)
 #stargazer(m2008A)
 
-m2008C <- lm(DevGood4City ~ Black +  Ward2 + Ward3 + Ward4+ Ward5 + Ward6 + Ward7 + Ward8  + Age + Rent + Female + ForcedMoveLikely + HighIncome + CollegeGrad + Black*HighIncome, data= DF08)
+#m2008C <- lm(DevGood4City ~ Black +  Ward2 + Ward3 + Ward4+ Ward5 + Ward6 + Ward7 + Ward8  + Age + Rent + Female + ForcedMoveLikely + HighIncome + CollegeGrad + Black*HighIncome, data= DF08)
 #stargazer(m2008C)
 
 ## Dev Good for ..... 2011 DevMainlyGood
 # Development is mainly good xnd15c is income
-m2011A <- lm(DevMainlyGood ~ Black +  Ward2 + Ward3 + Ward4+ Ward5 + Ward6 + Ward7 + Ward8  + Rent + DevInNbhd + xnd15c, data= DF11)
+#m2011A <- lm(DevMainlyGood ~ Black +  Ward2 + Ward3 + Ward4+ Ward5 + Ward6 + Ward7 + Ward8  + Rent + DevInNbhd + xnd15c, data= DF11)
 #summary(m2011A)
 #stargazer(m2011A)
 
 ### Dev Good for people like me 2014
 ## Development is mainly a good thing ProGen
-m2014A <- lm(ProGen ~ Black +  Ward2 + Ward3 + Ward4+ Ward5 + Ward6 + Ward7 + Ward8 + YrsinDC6to19+ YrsinDC20to39 + YrsinDC40Plus + YrsinDCWholeLife + HighIncome + CollegeGrad + Black*HighIncome, data= DF14)
+#m2014A <- lm(ProGen ~ Black +  Ward2 + Ward3 + Ward4+ Ward5 + Ward6 + Ward7 + Ward8 + YrsinDC6to19+ YrsinDC20to39 + YrsinDC40Plus + YrsinDCWholeLife + HighIncome + CollegeGrad + Black*HighIncome, data= DF14)
 #stargazer(m2014A)
 
-m2014B <- lm(ProGen ~ Black +  Ward2 + Ward3 + Ward4+ Ward5 + Ward6 + Ward7 + Ward8 , data= DF14)
-summary(m2014B)
+#m2014B <- lm(ProGen ~ Black +  Ward2 + Ward3 + Ward4+ Ward5 + Ward6 + Ward7 + Ward8 , data= DF14)
+#summary(m2014B)
 #stargazer(m2014B)
 
 
 ### Dev Good for people like me 2015 ReDevGood dev for people like me 
-m2015A <- lm(ReDevGood ~ Black + Ward2 + Ward3 + Ward4+ Ward5 + Ward6 + Ward7 + Ward8 + Age + Female + HighIncome + Black*HighIncome, data= DF15)
+#m2015A <- lm(ReDevGood ~ Black + Ward2 + Ward3 + Ward4+ Ward5 + Ward6 + Ward7 + Ward8 + Age + Female + HighIncome + Black*HighIncome, data= DF15)
 #stargazer(m2015A)
 
 # New interractions
@@ -3390,8 +3417,187 @@ RegAll2 <- stargazer(m2008C, m2014A, m2015A)
 #### DEV Good For Rich
 Dev4Rich00 <- lm(DevGood4Rich ~ Black + Female + LowIncome + MedIncome, data = DF00) #Not sure why income is NA
 
-Dev4Rich06 <- lm(DevGood4Rich ~ Black + Female + Age + LowIncome + MedIncome + OutsideDC + TimeInDC + Ward2 + Ward3 + Ward4 + Ward5 + Ward6 + Ward7 + Ward8 + Rent + Dem + NotRegistered, data = DF06)
+Dev4Rich06 <- lm(DevGood4Rich ~ Black + Female + Age + LowIncome + MedIncome + OutsideDC + WholeLifeinDC + Less1YearinDC + Ward2 + Ward3 + Ward4 + Ward5 + Ward6 + Ward7 + Ward8 + Rent + Dem + NotRegistered + Dem, data = DF06)
 
-Dev4Rich08 <- lm(DevGood4Rich ~ Black + Female + Age + LowIncome + MedIncome, data = DF08)
+Dev4Rich08 <- lm(DevGood4Rich ~ Black + Female + Age + LowIncome + MedIncome + OutsideDC +Ward2 + Ward3 + Ward4 + Ward5 + Ward6 + Ward7 + Ward8 + Rent + Dem + NotRegistered +DevYesMove + DevMaybeMove + DevMoveHappened +CouldNotBuyHome + VWorriedHousingCosts + WorriedHousingCosts + FallBehind, data = DF08)
 
-Dev4Rich14 <- lm(DevGood4Rich ~ Black + Female + Age + LowIncome + MedIncome, data = DF14)
+Dev4Rich14 <- lm(DevGood4Rich ~ Black + Female + Age + LowIncome + MedIncome + Ward2 + Ward3 + Ward4 + Ward5 + Ward6 + Ward7 + Ward8 + Dem + NotRegistered, data = DF14)
+
+stargazer(Dev4Rich00, Dev4Rich06, Dev4Rich08, Dev4Rich14)
+
+### Dev Bad For Poor
+Dev4Poor00  <- lm(DevBad4Poor ~ Black + Female + LowIncome + MedIncome, data = 
+                    DF00) #Not sure why income is NA
+
+Dev4Poor06  <- lm(DevBad4Poor ~ Black + Female + LowIncome + MedIncome + OutsideDC 
+                  + WholeLifeinDC + Less1YearinDC + Ward2 + Ward3 + Ward4 + Ward5 
+                  + Ward6 + Ward7 + Ward8 
+                  + Rent + Dem + NotRegistered + Dem, data = DF06)
+
+Dev4Poor08  <- lm(DevBad4Poor ~ Black + Female + LowIncome + MedIncome + OutsideDC 
+                  +Ward2 + Ward3 + Ward4 + Ward5 + Ward6 + Ward7 + Ward8 + Rent + 
+                    Dem + NotRegistered +DevYesMove + DevMaybeMove + DevMoveHappened 
+                  +CouldNotBuyHome + VWorriedHousingCosts + WorriedHousingCosts 
+                  + FallBehind, data = DF08)
+
+Dev4Poor14  <- lm(DevBad4Poor ~ Black + Female + LowIncome + MedIncome + Ward2 + 
+                    Ward3 + Ward4 + Ward5 + Ward6 + Ward7 + Ward8 + Dem + NotRegistered, 
+                  data = DF14)
+
+stargazer(Dev4Poor00, Dev4Poor06, Dev4Poor08, Dev4Poor14)
+
+### Dev is mainly Good
+DevMainlyGood02 <- lm(DevMainlyGood ~ White + Male + HighIncome +
+                        Age + Ward1 + Ward3 + Ward4 + Ward5 +Ward6 + Ward7 + 
+                        Ward8 + CollegeGrad + Own + Dem + DCRaceRelationsBetter 
+                      + WholeLifeinDC + Less1YearinDC, data = DF02)
+
+DevMainlyGood11 <- lm(DevMainlyGood ~ White + Male + HighIncome + MedIncome +
+                      Age + Ward1 + Ward3 + Ward4 + Ward5 +Ward6 + Ward7 + 
+                        Ward8 + Own + GettingAhead + Maintain + WholeLifeinDC 
+                      + Less1YearinDC,  data = DF11)
+
+DevMainlyGood14 <- lm(DevMainlyGood ~ White + Male + HighIncome + MedIncome + 
+                        Ward1 + Ward3 + Ward4 + Ward5 + Ward6 + Ward7 + Ward8 +
+                        WholeLifeinDC + Less1YearinDC + 
+                        + Conservative + Moderate + Registered, data = DF14)
+
+stargazer(DevMainlyGood02, DevMainlyGood11, DevMainlyGood14)
+
+
+### Dev is mainly Bad
+DevMainlyBad02 <- lm(DevMainlyBad ~ Black + Female + LowIncome +
+                        Age + Ward1 + Ward3 + Ward4 + Ward5 +Ward6 + Ward7 + 
+                        Ward8 + LessHSEdu + HSGrad + Own + Dem + DCRaceRelationsBetter 
+                      + WholeLifeinDC + Less1YearinDC, data = DF02)
+
+DevMainlyBad02B <- lm(DevMainlyBad ~ Black + Female + 
+                       Age + Ward1 + Ward3 + Ward4 + Ward5 +Ward6 + Ward7 + 
+                       Ward8 + LessHSEdu + HSGrad + Own + Dem + DCRaceRelationsBetter 
+                     + WholeLifeinDC , data = DF02)
+
+DevMainlyBad11 <- lm(DevMainlyBad ~ Black + Female + LowIncome + MedIncome +
+                        Age + Ward1 + Ward3 + Ward4 + Ward5 +Ward6 + Ward7 + 
+                        Ward8 + Own + GettingAhead + Maintain + WholeLifeinDC 
+                     + Less1YearinDC,  data = DF11)
+
+DevMainlyBad14 <- lm(DevMainlyBad ~ Black + Female + LowIncome + MedIncome + 
+                        Ward1 + Ward3 + Ward4 + Ward5 + Ward6 + Ward7 + Ward8 
+                     + LessHSEdu + HSGrad + WholeLifeinDC + Less1YearinDC + Liberal + Moderate 
+                     +DivBoth , data = DF14)
+
+stargazer(DevMainlyBad02B, DevMainlyBad11, DevMainlyBad14)
+
+
+## Dev Good For Whites
+
+DevGood4Whts00  <- lm(DevGood4Whts ~ Black + Female + LowIncome , data = 
+                    DF00)
+
+DevGood4Whts06 <- lm(DevGood4Whts ~ Black + White + Female + LowIncome + MedIncome + OutsideDC 
+                      + WholeLifeinDC + Less1YearinDC + Ward2 + Ward3 + Ward4 + Ward5 
+                      + Ward6 + Ward7 + Ward8 
+                      + Rent + Dem + Dem, data = DF06)
+
+DevGood4Whts14 <- lm(DevGood4Whts ~ Black + White + Female + LowIncome + MedIncome + 
+                        Ward1 + Ward3 + Ward4 + Ward5 + Ward6 + Ward7 + Ward8 +
+                        WholeLifeinDC + Less1YearinDC + 
+                        + Conservative + Moderate + Registered, data = DF14)
+
+stargazer(DevGood4Whts00, DevGood4Whts06, DevGood4Whts14)
+
+
+## Dev Bad for Blacks
+
+DevBad4Blks00  <- lm(DevBad4Blks ~ Black + Female + LowIncome , data = 
+                        DF00)
+
+DevBad4Blks06 <- lm(DevBad4Blks ~ Black + White + Female + LowIncome + MedIncome + OutsideDC 
+                     + WholeLifeinDC + Less1YearinDC + Ward2 + Ward3 + Ward4 + Ward5 
+                     + Ward6 + Ward7 + Ward8 
+                     + Rent + Dem + Dem, data = DF06)
+
+DevBad4Blks14 <- lm(DevBad4Blks ~ Black + White + Female + LowIncome + MedIncome + 
+                       Ward1 + Ward3 + Ward4 + Ward5 + Ward6 + Ward7 + Ward8 +
+                       WholeLifeinDC + Less1YearinDC + 
+                       + Conservative + Moderate + Registered, data = DF14)
+
+stargazer(DevBad4Blks00, DevBad4Blks06, DevBad4Blks14)
+  
+
+## Dev Good for Blacks
+
+DevGood4Blks00  <- lm(DevGood4Blks ~ Black + Female + LowIncome , data = 
+                       DF00)
+
+DevGood4Blks06 <- lm(DevGood4Blks ~ Black + White + Female + LowIncome + MedIncome + OutsideDC 
+                    + WholeLifeinDC + Less1YearinDC + Ward2 + Ward3 + Ward4 + Ward5 
+                    + Ward6 + Ward7 + Ward8 
+                    + Rent + Dem + Dem, data = DF06)
+
+DevGood4Blks14 <- lm(DevGood4Blks ~ Black + White + Female + LowIncome + MedIncome + 
+                      Ward1 + Ward3 + Ward4 + Ward5 + Ward6 + Ward7 + Ward8 +
+                      WholeLifeinDC + Less1YearinDC + 
+                      + Conservative + Moderate + Registered, data = DF14)
+
+stargazer(DevGood4Blks00, DevGood4Blks06, DevGood4Blks14)
+
+### Dev is Good for People like you
+
+DevGood4PplYou00  <- lm(DevGood4PplYou ~ Black + Female + LowIncome , data = 
+                        DF00)
+
+DevGood4PplYou06 <- lm(DevGood4PplYou ~ Black + White + Female + LowIncome + MedIncome + OutsideDC 
+                     + WholeLifeinDC + Less1YearinDC + Ward2 + Ward3 + Ward4 + Ward5 
+                     + Ward6 + Ward7 + Ward8 
+                     + Rent + Dem + Dem, data = DF06)
+
+DevGood4PplYou14 <- lm(DevGood4PplYou ~ Black + White + Female + LowIncome + MedIncome + 
+                       Ward2 + Ward3 + Ward4 + Ward5 + Ward6 + Ward7 + Ward8 +
+                       WholeLifeinDC + Less1YearinDC + 
+                       + Conservative + Moderate + Registered, data = DF14)
+
+DevGood4PplYou15 <- lm(DevGood4PplYou ~ Black + White + Female + LowIncome + MedIncome + 
+                       Ward2 + Ward3 + Ward4 + Ward5 + Ward6 + Ward7 + Ward8, data = DF15)
+
+stargazer(DevGood4PplYou00, DevGood4PplYou06, DevGood4PplYou14, DevGood4PplYou15)
+
+
+### Dev is Bad for People like you
+
+DevBad4PplYou00  <- lm(DevBad4PplYou ~ Black + Female + LowIncome , data = 
+                          DF00)
+
+DevBad4PplYou06 <- lm(DevBad4PplYou ~ Black + White + Female + LowIncome + MedIncome + OutsideDC 
+                       + WholeLifeinDC + Less1YearinDC + Ward2 + Ward3 + Ward4 + Ward5 
+                       + Ward6 + Ward7 + Ward8 
+                       + Rent + Dem + Dem, data = DF06)
+
+DevBad4PplYou14 <- lm(DevBad4PplYou ~ Black + White + Female + LowIncome + MedIncome + 
+                         Ward2 + Ward3 + Ward4 + Ward5 + Ward6 + Ward7 + Ward8 +
+                         WholeLifeinDC + Less1YearinDC + 
+                         + Conservative + Moderate + Registered, data = DF14)
+
+DevBad4PplYou15 <- lm(DevBad4PplYou ~ Black + White + Female + LowIncome + MedIncome + 
+                         Ward2 + Ward3 + Ward4 + Ward5 + Ward6 + Ward7 + Ward8, data = DF15)
+
+stargazer(DevBad4PplYou00, DevBad4PplYou06, DevBad4PplYou14, DevBad4PplYou15)
+
+### Dev is Bad for People like you w/ Interraction
+
+DevBad4PplYou00B  <- lm(DevBad4PplYou ~ Black + Female + LowIncome , data = 
+                         DF00)
+
+DevBad4PplYou06B <- lm(DevBad4PplYou ~ Black + White + Female + LowIncome + Black*LowIncome + MedIncome + OutsideDC 
+                      + WholeLifeinDC + Less1YearinDC + Ward2 + Ward3 + Ward4 + Ward5 
+                      + Ward6 + Ward7 + Ward8 + Rent + Dem + Dem, data = DF06)
+
+DevBad4PplYou14B <- lm(DevBad4PplYou ~ Black + White + Female + LowIncome + Black*LowIncome + MedIncome + 
+                        Ward2 + Ward3 + Ward4 + Ward5 + Ward6 + Ward7 + Ward8 +
+                        WholeLifeinDC + Less1YearinDC + 
+                        + Conservative + Moderate + Registered, data = DF14)
+
+DevBad4PplYou15B <- lm(DevBad4PplYou ~ Black + White + Female + LowIncome + Black*LowIncome + MedIncome + 
+                        Ward2 + Ward3 + Ward4 + Ward5 + Ward6 + Ward7 + Ward8, data = DF15)
+
+stargazer(DevBad4PplYou00B, DevBad4PplYou06B, DevBad4PplYou14B, DevBad4PplYou15B)
