@@ -114,6 +114,14 @@ DF00<- mutate(DF00,
                                    DF00$income3 == "$50,000 but less than $75,000, or", 1, 0), 
               HighIncome = ifelse(DF00$income3== "$75,000 or more", 1, 0))
 
+DF00$LowIncome[is.na(DF00$LowIncome)] <- 0
+DF00$MedIncome[is.na(DF00$MedIncome)] <- 0
+DF00$HighIncome[is.na(DF00$HighIncome)] <- 0
+
+income00 <- data.frame(DF00$LowIncome, DF00$MedIncome, DF00$HighIncome)
+
+DF00$LowIncome[is.na(DF00$LowIncome)] <- 0
+
 ###### 2002 ##############
 #install.packages("readxl")
 library(readxl)
@@ -121,16 +129,16 @@ DF02 = read_spss("/Users/aricaschuett/Documents/MiLO/Gentrification/03554-0001-D
 DF02xls = read_excel("/Users/aricaschuett/Documents/MiLO/Gentrification/uswash2002-19181.xlsx")
 
 # Biggest Problem Q17
-DF02 <- mutate(DF02, 
-               Crime = ifelse(DF02$Q17  == 1, 1, 0), 
-               School = ifelse(DF02$Q17  == 2, 1, 0), 
-               Services = ifelse(DF02$Q17  == 3, 1, 0), 
-               Jobs = ifelse(DF02$Q17  == 4, 1, 0),
-               Terrorism = ifelse(DF02$Q17 == 5, 1, 0), 
-               Housing = ifelse(DF02$Q17  == 6, 1, 0), #"housing costs, low income housing"
-               Other = ifelse(DF02$Q17  == 7, 1, 0), 
-               DK = ifelse(DF02$Q17  == 8, 1, 0), 
-               BPNA= ifelse(DF02$Q17  == 9, 1, 0))
+# DF02 <- mutate(DF02, 
+#                Crime = ifelse(DF02$q17  == 1, 1, 0), 
+#                School = ifelse(DF02$q17  == 2, 1, 0), 
+#                Services = ifelse(DF02$q17  == 3, 1, 0), 
+#                Jobs = ifelse(DF02$q17  == 4, 1, 0),
+#                Terrorism = ifelse(DF02$q17 == 5, 1, 0), 
+#                Housing = ifelse(DF02$q17  == 6, 1, 0), #"housing costs, low income housing"
+#                Other = ifelse(DF02$q17  == 7, 1, 0), 
+#                DK = ifelse(DF02$q17  == 8, 1, 0), 
+#                BPNA= ifelse(DF02$q17  == 9, 1, 0))
 
 # In General, would you say this kind of redevelopment is a good thing or mainly a bad thing? Q32
 DF02 <- mutate(DF02, 
@@ -172,8 +180,8 @@ DF02 <- mutate(DF02,
                DK_Move = ifelse(DF02$Q36 == 3, 1, 0))
 # Income
 DF02<- mutate(DF02, 
-              LowIncome = ifelse(DF02$INCOME2 == 1 | DF02$INCOME2 ==2 | DF02$INCOME2 == 3, 1, 0),
-              MedIncome = ifelse(DF02$INCOME2 == 4 | DF02$INCOME3 ==1 | DF02$INCOME3 == 2, 1, 0), 
+              LowIncome = ifelse(DF02$INCOME2 == 1 | DF02$INCOME2 ==2 | DF02$INCOME2 == 3 | DF02$INCOME2 ==4, 1, 0),
+              MedIncome = ifelse(DF02$INCOME3 == 1 | DF02$INCOME3 ==2, 1, 0), 
               HighIncome = ifelse(DF02$INCOME3 ==3, 1, 0))
 
 # Time in DC
@@ -200,38 +208,23 @@ DF02 <- mutate(DF02,
                QuadDK = ifelse(DF02$Q40 == 8, 1, 0),
                QuadNoOpin = ifelse(DF02$Q40 == 9, 1, 0))
 
-# Education: grade Q909
-DF02xls <- mutate(DF02xls, 
-               Edu8thGrade = ifelse(DF02xls$q909 == 1, 1, 0), 
-               EduHS = ifelse(DF02xls$q909 == 2, 1, 0), 
-               EduGradHS = ifelse(DF02xls$q909 == 3, 1, 0),
-               EduSomeCollege = ifelse(DF02xls$q909 == 4, 1, 0),
-               EduGradCollege = ifelse(DF02xls$q909 == 5, 1, 0),
-               EduPostGrad = ifelse(DF02xls$q909 == 6, 1, 0),
-               EduDKNoOpin= ifelse(DF02xls$q909 == 8, 1, 0),
-               EduNA = ifelse(DF02xls$q909 == 9, 1, 0))
+# # Education: grade Q909
+# DF02xls <- mutate(DF02xls, 
+#                Edu8thGrade = ifelse(DF02xls$Q909 == 1, 1, 0), 
+#                EduHS = ifelse(DF02xls$Q909 == 2, 1, 0), 
+#                EduGradHS = ifelse(DF02xls$Q909 == 3, 1, 0),
+#                EduSomeCollege = ifelse(DF02xls$Q909 == 4, 1, 0),
+#                EduGradCollege = ifelse(DF02xls$Q909 == 5, 1, 0),
+#                EduPostGrad = ifelse(DF02xls$Q909 == 6, 1, 0),
+#                EduDKNoOpin= ifelse(DF02xls$Q909 == 8, 1, 0),
+#                EduNA = ifelse(DF02xls$Q909 == 9, 1, 0))
 
 
 # Education Bin
-DF02xls <- mutate(DF02xls,
+DF02 <- mutate(DF02,
                LessHSEdu = ifelse(DF02xls$q909 == 1 | DF02xls$q909  == 2, 1, 0),
                HSGrad = ifelse(DF02xls$q909 == 3 | DF02xls$q909 == 4, 1, 0),
                CollegeGrad = ifelse(DF02xls$q909  == 5 | DF02xls$q909  == 6 |DF02xls$q909  == 9, 1, 0))
-
-DF02 <- cbind(DF02, LessHSEdu = DF02xls$LessHSEdu, 
-              HSGrad =DF02xls$HSGrad, 
-              CollegeGrad= DF02xls$CollegeGrad)
-
-# Education: degree Q909a
-DF02 <- mutate(DF02, 
-               Assocaites = ifelse(DF02$Q909A == 1, 1, 0), 
-               Bachelors = ifelse(DF02$Q909A  == 2, 1, 0), 
-               Other = ifelse(DF02$Q909A  == 3, 1, 0),
-               DKDegree = ifelse(DF02$Q909A  == 8, 1, 0),
-               DegreeNoOpin = ifelse(DF02$Q909A  == 9, 1, 0))
-
-# Age Q910
-
 
 
 # Rent or Own
@@ -241,41 +234,34 @@ DF02 <- mutate(DF02,
                DKHouseHold = ifelse(DF02$Q48 == 8, 1, 0),
                OtherHousing = ifelse(DF02$Q48 == 9, 1, 0))
 
-# Q PID 
-DF02xls <- mutate(DF02xls, 
-               Dem = ifelse(DF02xls$q8 == 1, 1, 0), 
-               Rep = ifelse(DF02xls$q8 == 2, 1, 0), 
-               Ind = ifelse(DF02xls$q8 == 3, 1, 0),
-               GreenP = ifelse(DF02xls$q8 == 4, 1, 0),
-               SomethingElse = ifelse(DF02xls$q8 == 5, 1, 0),
-               PID_DK = ifelse(DF02xls$q8 == 8, 1, 0),
-               PID_NA = ifelse(DF02xls$q8 == 9, 1, 0))
+# # Q PID 
+# DF02 <- mutate(DF02xls, 
+#                Dem = ifelse(DF02xls$q8 == 1, 1, 0), 
+#                Rep = ifelse(DF02xls$q8 == 2, 1, 0), 
+#                Ind = ifelse(DF02xls$q8 == 3, 1, 0),
+#                GreenP = ifelse(DF02xls$q8 == 4, 1, 0),
+#                SomethingElse = ifelse(DF02xls$q8 == 5, 1, 0),
+#                PID_DK = ifelse(DF02xls$q8 == 8, 1, 0),
+#                PID_NA = ifelse(DF02xls$q8 == 9, 1, 0))
 
-DF02 <- cbind(DF02, Dem = DF02xls$Dem, 
-              Rep = DF02xls$Rep, 
-              Ind = DF02xls$Ind,
-              GreenP = DF02xls$GreenP, 
-              SomethingElse =DF02xls$SomethingElse, 
-              PID_DK = DF02xls$PID_DK,
-              PID_NA = DF02xls$PID_NA )
 
 # Race: m918
 DF02 <- mutate(DF02, 
-               White = ifelse(DF02$RACE == 1, 1, 0), 
-               Black = ifelse(DF02$RACE == 2, 1, 0), 
-               WhiteHisp = ifelse(DF02$RACE == 3, 1, 0),
-               BlackHisp = ifelse(DF02$RACE == 4, 1, 0),
-               HispNRG = ifelse(DF02$RACE == 5, 1, 0),
-               OtherRace = ifelse(DF02$RACE == 6, 1, 0),
-               RaceNA = ifelse(DF02$RACE == 9, 1, 0),
-               DKRace = ifelse(DF02$RACE == 8, 1, 0))
+               White = ifelse(DF02xls$q918 == 1, 1, 0), 
+               Black = ifelse(DF02xls$q918 == 2, 1, 0), 
+               WhiteHisp = ifelse(DF02xls$q918 == 3, 1, 0),
+               BlackHisp = ifelse(DF02xls$q918 == 4, 1, 0),
+               HispNRG = ifelse(DF02xls$q918 == 5, 1, 0),
+               OtherRace = ifelse(DF02xls$q918 == 6, 1, 0),
+               RaceNA = ifelse(DF02xls$q918 == 9, 1, 0),
+               DKRace = ifelse(DF02xls$q918 == 8, 1, 0))
 
 # Gender Q921
 DF02 <- mutate(DF02, 
-               Male = ifelse(DF02$SEX == 1, 1, 0), 
-               Female = ifelse(DF02$SEX == 2, 1, 0))
+               Male = ifelse(DF02xls$q921 == 1, 1, 0), 
+               Female = ifelse(DF02xls$q921 == 2, 1, 0))
 
-colnames(DF02)[colnames(DF02) == "AGE"] <- "Age"
+colnames(DF02)[colnames(DF02) == "Q910"] <- "Age"
 colnames(DF02)[colnames(DF02) == "Q47"] <- "TimeInDC"
 
 DF02 <- mutate( DF02, 
@@ -290,6 +276,25 @@ DF02 <- mutate(DF02,
                DCRaceRelationsDK = ifelse(DF02$Q14 == 4, 1, 0),
                DCRaceRelationsNoOpin = ifelse(DF02$Q14 == 8, 1, 0))
 
+#colnames(DF02)[colnames(DF02) == "q7"] <- "TimeInDC"
+DF02$TimeInDC <- as.numeric(DF02$TimeInDC)
+
+
+DF02['TimeInDC'][DF02['TimeInDC'] == 0] <- .5
+DF02['TimeInDC'][DF02['TimeInDC'] == 998] <- NA
+
+DF02 <- mutate( DF02, 
+                TimeInDC = ifelse(DF02$TimeInDC == "Whole life", DF02$AGE, DF02$TimeInDC))
+DF02$TimeInDC <- as.numeric(DF02$TimeInDC)
+
+# Time in DC ratio
+DF02 <- mutate( DF02, 
+                RatioLifeinDC = (DF02$TimeInDC/DF02$AGE))
+
+DF02 <- mutate( DF02, 
+                RatioLifeinDC = ifelse(RatioLifeinDC > 1, NA, RatioLifeinDC))
+
+TimeinDCTable02 <- data.frame(DF02$AGE, DF02$TimeInDC, DF02$RatioLifeinDC)
 
 
 ###### 2006 ############################################################################################################################################
@@ -368,6 +373,7 @@ DF06<- mutate(DF06,
               MedIncome = ifelse(DF06$income == 2 | DF06$income == 3 | DF06$income == 4, 1, 0), 
               HighIncome = ifelse(DF06$income == 5 | DF06$income == 6, 1, 0))
 
+income06 <- data.frame(DF06$LowIncome, DF06$MedIncome, DF06$HighIncome)
 
 # Gentrification is good for...The city
 DF06 <- mutate(DF06, 
@@ -514,9 +520,22 @@ DF06 <- mutate( DF06,
                 Less1YearinDC = ifelse(DF06$TimeInDC == 0, 1, 0),
                 WholeLifeinDC = ifelse(DF06$TimeInDC  == 97, 1, 0))
 
-#colnames(DF06)[colnames(DF06) == "q20b"] <- "Dev4Blks"
+DF06$TimeInDC <- as.numeric(DF06$TimeInDC)
+
+DF06 <- mutate(DF06, 
+               TimeInDC = ifelse(DF06$TimeInDC == "97", DF06$Age, DF06$TimeInDC))
+
+DF06['TimeInDC'][DF06['TimeInDC'] == 0] <- .5
+
+# Time in DC ratio
+DF06 <- mutate( DF06, 
+                RatioLifeinDC = (DF06$TimeInDC/DF06$Age))
+
+DF06 <- mutate( DF06, 
+                RatioLifeinDC = ifelse(RatioLifeinDC > 1, NA, RatioLifeinDC))
 
 
+TimeinDCTable06 <- data.frame(DF06$Age, DF06$TimeInDC, DF06$RatioLifeinDC)
 ###### 2008 ##########################################################################################################################################
 DF08 <- read_dta("/Users/aricaschuett/Documents/MiLO/Gentrification/24602-0001-Data (1).dta")
 
@@ -760,10 +779,6 @@ DF08 <- mutate(DF08,
                HSGrad = ifelse(DF08$Q909 == 3 | DF08$Q909 == 4, 1, 0),
                CollegeGrad = ifelse(DF08$Q909 == 5 | DF08$Q909 == 6, 1, 0))
 
-# Age by number is Q910
-#colnames(DF02)[colnames(DF02) == "AGE"] <- "Age"
-
-
 # Are you Hispanic origin or background?
 DF08 <- mutate(DF08, 
                YesHispanic = ifelse(DF08$Q918 == 1, 1, 0), 
@@ -786,6 +801,7 @@ DF08<- mutate(DF08,
               LowIncome = ifelse(DF08$INCOME == 1, 1, 0),
               MedIncome = ifelse(DF08$INCOME == 2 | DF08$INCOME == 3 | DF08$INCOME == 4, 1, 0), 
               HighIncome = ifelse(DF08$INCOME == 5 | DF08$INCOME == 6, 1, 0))
+income08 <- data.frame(DF08$LowIncome, DF08$MedIncome, DF08$HighIncome)
 
 # Income
 DF08 <- mutate(DF08, 
@@ -808,6 +824,8 @@ DF08 <- mutate(DF08,
                Female = ifelse(DF08$Q921 == 2, 1, 0))
 
 colnames(DF08)[colnames(DF08) == "Q910"] <- "Age"
+
+DF08$Age[DF08$Age== -1] <- NA
 
 ###### Visualizations 2006-08 #################################################################################################################################################
 ###### black views of gentrification for BLACKS 2006 #############
@@ -1108,14 +1126,10 @@ plotwhiteview08 <-
   labs(y = "Percent", x= "views", title = "White Views of Redevelopment for The Rich 2008")+    ### Shorten title if using cowplot
   geom_text(aes(label = signif(n/sum(n)*100, digits = 3)), vjust = -0.5) +
   theme_minimal()
-#plotwhiteview08
-
 
 ## Cowplot them
 RD_Opn_byRace08 <- plot_grid(plotBlackview08, plotwhiteview08, 
                              nrow = 1)
-#RD_Opn_byRace08
-
 ###### Black Views on gentrification for THE POOR 2008 ############################
 blackOpinonGenforPOOR08 <- 
   blackres08 %>%
@@ -1280,6 +1294,20 @@ DF11 <- mutate( DF11,
                 DKDev4Nbhd = ifelse(DF11$qn26  == "Don't know", 1, 0),
                 Dev4NbhdNA = ifelse(DF11$qn26  == "Refused", 1, 0))
 
+
+# 27.  As you may know, recent Census numbers show the District is no longer a majority
+# black city. Do you think this shift has changed the culture of the city, or not?
+DF11 <- mutate( DF11, 
+                DCCultureChange = ifelse(DF11$qn27 == "Yes", 1, 0),
+                DCCultureNotChanged = ifelse(DF11$qn27  == "No", 1, 0),
+                NoOpnDCCultureChange = ifelse(DF11$qn27  == "Don't know", 1, 0))
+
+# 27a. (IF YES) Is that a change for the better or a change for the worse?
+DF11 <- mutate( DF11, 
+                CultureChangeBetter = ifelse(DF11$qn27a == "Better", 1, 0),
+                CultureChangeWorse = ifelse(DF11$qn27a  == "Worse", 1, 0),
+                CultureChangeNeither = ifelse(DF11$qn27a  == "Neither", 1, 0))
+
 # Income
 DF11 <- mutate( DF11, 
                 IncomeGtr200k = ifelse(DF11$xnd15c == "$200k or more", 1, 0),
@@ -1304,6 +1332,7 @@ DF11 <- mutate(DF11,
                                      DF11$xnd15c == "$150k to under $200k" |
                                      DF11$xnd15c == "$100k+ Undetermined" |
                                      DF11$xnd15c == "$200k or more" , 1, 0))
+income11 <- data.frame(DF11$LowIncome, DF11$MedIncome, DF11$HighIncome)
 
 
 # Race
@@ -1345,9 +1374,9 @@ DF11 <- mutate( DF11,
 
 # Find a house in DC
 DF11 <- mutate( DF11, 
-                WithinDC = ifelse(DF11$qn21 == "Could find something in the District", 1, 0),
-                OutsideDC = ifelse(DF11$qn21  == "Have to move to the suburbs", 1, 0),
-                DK_Move = ifelse(DF11$qn21  == "Don't know", 1, 0))
+                WithinDC = ifelse(DF11$qn22 == "Could find something in the District", 1, 0),
+                OutsideDC = ifelse(DF11$qn22  == "Have to move to the suburbs", 1, 0),
+                DK_Move = ifelse(DF11$qn22  == "Don't know", 1, 0))
 
 # Age
 colnames(DF11)[colnames(DF11) == "qnd9"] <- "Age"
@@ -1360,6 +1389,22 @@ DF11 <- mutate( DF11,
                 Less1YearinDC = ifelse(DF11$TimeInDC == "Less than one year", 1, 0),
                 RefuedTimeinDC = ifelse(DF11$TimeInDC  == "Refused", 1, 0),
                 WholeLifeinDC = ifelse(DF11$TimeInDC  == "Whole life", 1, 0))
+
+DF11[DF11 == "Less than one year"] <- '.5'
+DF11[DF11 == "Refused"] <- 'NA'
+
+DF11 <- mutate( DF11, 
+                TimeInDC = ifelse(DF11$TimeInDC == "Whole life", DF11$Age, DF11$TimeInDC))
+
+# Time in DC ratio
+DF11 <- mutate( DF11, 
+                RatioLifeinDC = (DF11$TimeInDC/DF11$Age))
+
+DF11 <- mutate( DF11, 
+                RatioLifeinDC = ifelse(RatioLifeinDC > 1, NA, RatioLifeinDC))
+
+TimeinDCTable11 <- data.frame(DF11$Age, DF11$TimeInDC, DF11$RatioLifeinDC)
+DF11$TimeInDC <- as.numeric(DF11$TimeInDC)
 
 
 # Gender
@@ -1524,12 +1569,30 @@ DF14 <- mutate(DF14,
 
 # Years in DC
 DF14 <- mutate(DF14, 
-               YrsinDC0to5 = ifelse(DF14$q25 == 1, 1, 0), 
-               YrsinDC6to19  = ifelse(DF14$q25 == 2, 1, 0), 
-               YrsinDC20to39  = ifelse(DF14$q25 == 3, 1, 0),
-               YrsinDC40Plus = ifelse(DF14$q25 == 4, 1, 0), 
-               YrsinDCWholeLife = ifelse(DF14$q25 == 5, 1, 0),
-               YrsinDCDK = ifelse(DF14$q25 == 6, 1, 0))
+               YrsinDC0to5 = ifelse(DF14$q25net == 1, 1, 0), 
+               YrsinDC6to19  = ifelse(DF14$q25net == 2, 1, 0), 
+               YrsinDC20to39  = ifelse(DF14$q25net == 3, 1, 0),
+               YrsinDC40Plus = ifelse(DF14$q25net == 4, 1, 0), 
+               YrsinDCWholeLife = ifelse(DF14$q25net == 5, 1, 0),
+               YrsinDCDK = ifelse(DF14$q25net == 8, 1, 0))
+
+DF14['TimeInDC'][DF14['TimeInDC'] == 0] <- .5
+DF14['TimeInDC'][DF14['TimeInDC'] == 99] <- NA
+
+DF14 <- mutate( DF14, 
+                TimeInDC = ifelse(DF14$TimeInDC == 97, DF14$Age, DF14$TimeInDC))
+
+
+# Time in DC ratio
+DF14 <- mutate( DF14, 
+                RatioLifeinDC = (DF14$TimeInDC/DF14$Age))
+
+DF14 <- mutate( DF14, 
+                RatioLifeinDC = ifelse(RatioLifeinDC > 1, NA, RatioLifeinDC))
+
+#DF11$TimeInDC <- as.numeric(DF11$TimeInDC)
+TimeinDCTable14 <-data.frame(DF14$Age, DF14$q25, DF14$RatioLifeinDC)
+
 # wardsnew
 DF14 <- mutate(DF14, 
                Ward1 = ifelse(DF14$wardnew == 1, 1, 0), 
@@ -1559,6 +1622,7 @@ DF14 <- mutate(DF14,
                Income65kto100k = ifelse(DF14$income == 5, 1, 0),
                IncomeOver100k = ifelse(DF14$income == 6, 1, 0))
 
+
 #PID
 DF14 <- mutate(DF14, 
                Dem = ifelse(DF14$Party == 1 |DF14$Party_NotReg == 1, 1, 0), 
@@ -1584,6 +1648,9 @@ DF14 <- mutate(DF14,
                                       DF14$income == 5 , 1, 0),
                HighIncome = ifelse(DF14$income == 6, 1, 0))
 
+income14 <- data.frame(DF14$LowIncome, DF14$MedIncome, DF14$HighIncome)
+
+
 # Generally speaking, do you favor or oppose using city funds to help finance a new soccer stadium for the District's Major League Soccer team, DC United?
 DF14 <- mutate(DF14, 
                StrgFavMLSStadium = ifelse(DF14$q28 == 1, 1, 0), 
@@ -1591,6 +1658,7 @@ DF14 <- mutate(DF14,
                OppMLSStadium = ifelse(DF14$q28 == 3, 1, 0), 
                StrgOppMLSStadium = ifelse(DF14$q28 == 4, 1, 0),
                DK_Stadium = ifelse(DF14$q28 == 4, 1, 0))
+
 # Q29. As you may know, the District government paid (about 650 million dollars) to build the Washington
 # Nationals baseball stadium which opened in 2008 - do you think this was a generally (good) or (bad)
 # investment for the city?
@@ -1604,7 +1672,7 @@ DF14 <- mutate( DF14,
                 Female = ifelse(DF14$q921 == 2, 1, 0),
                 Male = ifelse(DF14$q921 == 1, 1, 0))
 
-DF14$q25[GenDV02$Q32== 1] <- "Mostly Good"
+DF14$q25[GenDV02$q32== 1] <- "Mostly Good"
 
 ###### 2015 #####################################################################################################################################################
 library(haven)
@@ -1633,10 +1701,10 @@ DF15 <- mutate( DF15,
 # 12. Would you support or oppose District government spending one hundred
 # million dollars a year, about one percent of the city budget, to provide
 # affordable housing units for low-income residents?
-DF15 <- mutate( DF15, 
+DF15 <- mutate( DF15,
                 SupAffHous = ifelse(DF15$Q12 == 1, 1, 0),
-                OppAffHous = ifelse(DF15$Q11 == 2, 1, 0),
-                AffHousNoOp = ifelse(DF15$Q11 == 8, 1, 0))  
+                OppAffHous = ifelse(DF15$Q12 == 2, 1, 0),
+                AffHousNoOp = ifelse(DF15$Q12 == 8, 1, 0))
 
 # race                                                     ### check values
 DF15 <- mutate( DF15, 
@@ -1673,6 +1741,8 @@ DF15 <- mutate( DF15,
 
 colnames(DF15)[colnames(DF15) == "racenet"] <- "Race"
 
+DF15 <- mutate( DF15, 
+                Ward1 = ifelse(DF15$wardnew == 1, 1, 0))
 
 colnames(DF15)[colnames(DF15) == "_Iwardnew_2"] <- "Ward2"
 colnames(DF15)[colnames(DF15) == "_Iwardnew_3"] <- "Ward3"
@@ -1696,7 +1766,7 @@ DF15 <- mutate( DF15,
 #blackres15 <- filter(DF15, Race == "black")
 colnames(DF15)[colnames(DF15) == "Q910"] <- "Age"
 
-# ward DNE 2015
+DF15$Age <- as.numeric(DF15$Age)
 
 # PID
 DF15 <- mutate( DF15, 
@@ -1715,12 +1785,34 @@ DF15 <- mutate( DF15,
 
 # years in DC 
 DF15 <- mutate( DF15, 
-                YrsinDC0to5 = ifelse(DF15$Q7 == 1, 1, 0),
-                YrsinDC6to19 = ifelse(DF15$Q7 == 2, 1, 0),
-                YrsinDC20to39 = ifelse(DF15$Q7 == 3, 1, 0),
-                YrsinDC40Plus = ifelse(DF15$Q7 == 4, 1, 0),
-                YearsinDCDK = ifelse(DF15$Q7 == 8, 1, 0),
-                YrsinDCWholeLife = ifelse(DF15$Q7 == 5, 1, 0))
+                YrsinDC0to5 = ifelse(DF15$Q7NET == 1, 1, 0),
+                YrsinDC6to19 = ifelse(DF15$Q7NET == 2, 1, 0),
+                YrsinDC20to39 = ifelse(DF15$Q7NET == 3, 1, 0),
+                YrsinDC40Plus = ifelse(DF15$Q7NET == 4, 1, 0),
+                YearsinDCDK = ifelse(DF15$Q7NET == 8, 1, 0),
+                YrsinDCWholeLife = ifelse(DF15$Q7NET == 5, 1, 0))
+
+colnames(DF15)[colnames(DF15) == "Q7"] <- "TimeInDC"
+
+DF15$TimeInDC <- as.numeric(DF15$TimeInDC)
+
+DF15['TimeInDC'][DF15['TimeInDC'] == 0] <- .5
+DF15['TimeInDC'][DF15['TimeInDC'] == 98] <- NA
+
+DF15 <- mutate( DF15, 
+                TimeInDC = ifelse(DF15$TimeInDC == 97, DF15$Age, DF15$TimeInDC))
+DF15$TimeInDC <- as.numeric(DF15$TimeInDC)
+
+
+# Time in DC ratio
+DF15 <- mutate( DF15, 
+                RatioLifeinDC = (DF15$TimeInDC/DF15$Age))
+
+DF15 <- mutate( DF15, 
+                RatioLifeinDC = ifelse(RatioLifeinDC > 1, NA, RatioLifeinDC))
+
+TimeinDCTable15 <- data.frame(DF15$Age, DF15$TimeInDC, DF15$RatioLifeinDC)
+
 
 # Fall Behind/ Getting Ahead
 DF15 <- mutate( DF15, 
@@ -1753,8 +1845,19 @@ DF15 <- mutate(DF15,
                                       DF15$income == 4 |
                                       DF15$income == 5 , 1, 0),
                HighIncome = ifelse(DF15$income == 6, 1, 0))
+income15 <- data.frame(DF15$LowIncome, DF15$MedIncome, DF15$HighIncome)
 
-################################################################3
+# Education Bin
+DF15 <- mutate(DF15,
+               LessHSEdu = ifelse(DF15$Q909 == 1 | DF15$Q909  == 2, 1, 0),
+               HSGrad = ifelse(DF15$Q909 == 3 | DF15$Q909 == 4, 1, 0),
+               CollegeGrad = ifelse(DF15$Q909  == 5 | DF15$Q909  == 6, 1, 0))
+
+
+################################################################
+
+blackres15 <- filter(DF15, Black == 1)
+
 blackOpinonRD <- 
   blackres15 %>%
   count(Q11)
@@ -1770,9 +1873,6 @@ plotBlackview <-
 #plotBlackview
 
 ###### Visualizations################################################################################################################################
-
-
-library(tidyverse)
 #Respondents by Ward
 count_byWard <- 
   DF14 %>%
@@ -2070,19 +2170,19 @@ plotWhiteview <-
 ###### Attitudes Towards Gentrification Generally 02 &  14 ######
 # Total Attitudes
 GenDV02 <- DF02 %>%
-  count(Q32)
+  count(q32)
 
 # Creates character out of column 1 not double
-GenDV02$Q32 <- as.numeric(GenDV02$Q32)
-GenDV02$Q32[GenDV02$Q32== 1] <- "Mostly Good"
-GenDV02$Q32[GenDV02$Q32== 2] <- "Mostly Bad"
-GenDV02$Q32[GenDV02$Q32== 3] <- "Neither"
-GenDV02$Q32[GenDV02$Q32== 4] <- "Both"
-GenDV02$Q32[GenDV02$Q32== 8] <- "DK No Opinion"
+GenDV02$q32 <- as.numeric(GenDV02$q32)
+GenDV02$q32[GenDV02$q32== 1] <- "Mostly Good"
+GenDV02$q32[GenDV02$q32== 2] <- "Mostly Bad"
+GenDV02$q32[GenDV02$q32== 3] <- "Neither"
+GenDV02$q32[GenDV02$q32== 4] <- "Both"
+GenDV02$q32[GenDV02$q32== 8] <- "DK No Opinion"
 
 
 plotGenDV02 <- 
-  ggplot(GenDV02, aes(x = Q32, y = n/sum(n)*100)) +
+  ggplot(GenDV02, aes(x = q32, y = n/sum(n)*100)) +
   geom_col() +
   #scale_y_continuous(expand = expansion(mult = c(0, 1))) +
   scale_y_continuous(limits=c(0, 100))+
@@ -2124,22 +2224,22 @@ GenDV02and14 <- plot_grid(plotGenDV02, plotGenDV14, nrow = 1)
 Black02 <- filter(DF02, Black == 1)
 GenDVBlack02 <- 
   Black02 %>%
-  count(Q32)
+  count(q32)
 
 # Creates character out of column 1 not double
-GenDVBlack02$Q32 <- as.numeric(GenDVBlack02$Q32)
-GenDVBlack02$Q32[GenDVBlack02$Q32== 1] <- "Mostly Good"
-GenDVBlack02$Q32[GenDVBlack02$Q32== 2] <- "Mostly Bad"
-GenDVBlack02$Q32[GenDVBlack02$Q32== 3] <- "Neither"
-GenDVBlack02$Q32[GenDVBlack02$Q32== 4] <- "Both"
-GenDVBlack02$Q32[GenDVBlack02$Q32== 8] <- "DK No Opinion"
+GenDVBlack02$q32 <- as.numeric(GenDVBlack02$q32)
+GenDVBlack02$q32[GenDVBlack02$q32== 1] <- "Mostly Good"
+GenDVBlack02$q32[GenDVBlack02$q32== 2] <- "Mostly Bad"
+GenDVBlack02$q32[GenDVBlack02$q32== 3] <- "Neither"
+GenDVBlack02$q32[GenDVBlack02$q32== 4] <- "Both"
+GenDVBlack02$q32[GenDVBlack02$q32== 8] <- "DK No Opinion"
 
 #install.packages("gridExtra")
 library(gridExtra)
 library(scales)
 
 plotGenDVBlack02 <- 
-  ggplot(GenDVBlack02, aes(x = Q32, y = n/sum(n)*100)) +
+  ggplot(GenDVBlack02, aes(x = q32, y = n/sum(n)*100)) +
   geom_col() +
   scale_y_continuous(limits=c(0, 100))+
   labs(y = "Percent", x= "views", title = "Black Residents Views of Redevelopment 2002")+    ### Shorten title if using cowplot
@@ -2152,18 +2252,28 @@ plotGenDVBlack02 <-
 White02 <- filter(DF02, White == 1)
 GenDVWhite02 <- 
   White02 %>%
-  count(Q32)
+  count(q32)
 
-GenDVWhite02$Q32 <- as.numeric(GenDVWhite02$Q32)
-GenDVWhite02$Q32[GenDVWhite02$Q32== 1] <- "Mostly Good"
-GenDVWhite02$Q32[GenDVWhite02$Q32== 2] <- "Mostly Bad"
-GenDVWhite02$Q32[GenDVWhite02$Q32== 3] <- "Neither"
-GenDVWhite02$Q32[GenDVWhite02$Q32== 4] <- "Both"
-GenDVWhite02$Q32[GenDVWhite02$Q32== 8] <- "DK No Opinion"
+
+#32. As you may know, 'gentrification' is the process in which developers or higher
+#income families buy and fix up homes or apartment buildings in working class city
+#neighborhoods.
+#Some say (this type of redevelopment is good because it may draw new businesses to the
+# area, increase home values and encourage higher income residents to move into the neighborhood).
+# Others say (this type of redevelopment is bad because it may cause rents and property
+# taxes to increase, and force lower income residents to move out of the neighborhood.
+# In general, would you say this kind of redevelopment is mainly a good thing or mainly
+# a bad thing?
+GenDVWhite02$q32 <- as.numeric(GenDVWhite02$q32)
+GenDVWhite02$q32[GenDVWhite02$q32== 1] <- "Mostly Good"
+GenDVWhite02$q32[GenDVWhite02$q32== 2] <- "Mostly Bad"
+GenDVWhite02$q32[GenDVWhite02$q32== 3] <- "Neither"
+GenDVWhite02$q32[GenDVWhite02$q32== 4] <- "Both"
+GenDVWhite02$q32[GenDVWhite02$q32== 8] <- "DK No Opinion"
 
 
 plotGenDVWhite02 <- 
-  ggplot(GenDVWhite02, aes(x = Q32, y = n/sum(n)*100)) +
+  ggplot(GenDVWhite02, aes(x = q32, y = n/sum(n)*100)) +
   geom_col() +
   scale_y_continuous(limits=c(0, 100))+
   labs(y = "Percent", x= "views", title = "White Residents Views of Redevelopment 2002")+    ### Shorten title if using cowplot
@@ -2235,9 +2345,9 @@ GenDVByRace0214 <- plot_grid(plotGenDVBlack02, plotGenDVBlack14, plotGenDVWhite0
 max_length <- max(c(nrow(DF02), nrow(DF14)))
 
 #Build Dataframe of General results
-DVAttitudesGenerally <- data.frame(Q02 = c(as.numeric(DF02$Q32),
+DVAttitudesGenerally <- data.frame(Q02 = c(as.numeric(DF02$q32),
                                            rep(NA, max_length-nrow(DF02))), 
-                                   Race02 = c(as.character(DF02$RACE),
+                                   Race02 = c(as.character(DF02$q918),
                                               rep(NA, max_length-nrow(DF02))),
                                    Q14 = c(DF14$q31,
                                            rep(NA, max_length-nrow(DF14))),
@@ -2296,6 +2406,11 @@ GenDVByRace0214 <- plot_grid(PlotGenDVSup0214, PlotGenDVOpp0214,nrow= 1)
 ###### Attitudes for People like You 00, 06, 14, & 15 #####
 ####### Support Gen for people like you #####
 # 2000
+
+
+GenDV06$q20g[GenDV06$q20g== 8] <- "DK"
+
+
 GenDV00 <- DF00 %>% 
   count(q21_7)
 
@@ -2375,31 +2490,15 @@ plotGenDV15 <-
 #plotGenDV15
 
 
-# Grid of People like Me
+
+
+
+# # Grid of People like Me
 PeopleLikeMe00to14 <- plot_grid(plotGenDV00, plotGenDV06, plotGenDV14, plotGenDV15, nrow=2)
-#PeopleLikeMe00to14
+PeopleLikeMe00to14
 
 max_length <- max(c(nrow(DF00), nrow(DF06), nrow(DF14), nrow(DF15)))
-# test <- data.frame(Q00 = c(DF00$q21_7,
-#                            rep(NA, max_length-nrow(DF00))), 
-#                    Race00 = c(DF00$race,
-#                               rep(NA, max_length-nrow(DF00))),
-#                    Q06 = c(as.character(DF06$q20g),
-#                            rep(NA, max_length-nrow(DF06))),
-#                    Race06 = c(as.character(DF06$q918),
-#                               rep(NA, max_length-nrow(DF06))),
-#                    Q14 = c(DF14$q32a,
-#                            rep(NA, max_length-nrow(DF14))),
-#                    Race14 = c(DF14$Race,
-#                               rep(NA, max_length-nrow(DF14))),
-#                    Q15 = c(DF15$Q11, 
-#                            rep(NA, max_length-nrow(DF15))),
-#                    Race15 = c(DF15$Race,
-#                               rep(NA, max_length-nrow(DF15))))
 
-# not sure yet how to make this a facet wrap with multiple graphs. 
-# I don't know how to pair race and the results
-###### Do not Support
 
 ###### Support Black v White for people like you #######
 ###### 2000 BLK for people like you #####
@@ -2408,6 +2507,7 @@ blackres00 <- filter(DF00, Black == 1)
 BlkDV00 <- 
   blackres00 %>%
   count(q21_7)
+
 
 plotBlkDV00 <- 
   ggplot(BlkDV00, aes(x = q21_7, y = n/sum(n)*100)) +
@@ -2482,10 +2582,106 @@ plotBlkDV15 <-
   theme_minimal()
 #plotBlkDV15
 
+# Development is GOod for people like me percent for Black residents 
+BlkDV00 <- mutate( BlkDV00, 
+                   Percent = (n/sum(n)*100))
 
-# Grid of People like Me
-PeopleLikeMe00to14Blk <- plot_grid(plotBlkDV00, plotBlkDV06, plotBlkDV14, plotBlkDV15, nrow=2)
-#PeopleLikeMe00to14Blk
+BlkDV06 <- mutate( BlkDV06, 
+                   Percent  = (n/sum(n)*100))
+
+BlkDV14 <- mutate( BlkDV14, 
+                  Percent = (n/sum(n)*100))
+
+BlkDV15 <- mutate( BlkDV15, 
+                  Percent = (n/sum(n)*100))
+
+
+colnames(BlkDV00) <- c("Response", "n", "Percent")
+colnames(BlkDV06) <- c("Response", "n", "Percent")
+colnames(BlkDV14) <- c("Response", "n", "Percent")
+colnames(BlkDV15) <- c("Response", "n", "Percent")
+
+
+BlkDV00$Response[BlkDV00$Response== "Mainly good"] <- "Mostly Good"
+BlkDV00$Response[BlkDV00$Response== "Mainly bad"] <- "Mostly Bad"
+BlkDV00$Response[BlkDV00$Response== "Don't know"] <- "DK"
+
+BLKDV <-rbind(BlkDV00, BlkDV06, BlkDV14, BlkDV15)
+colnames(BLKDV) <- c("Response", "n", "Percent")
+
+
+BLKDV['Year'] <- c(2000, 2000, 2000, 2000, 2006, 2006, 2006, 2006,
+                   2014, 2014, 2014,2015, 2015, 2015, 2015 )
+
+
+#n/sum(n)*100
+ggplot(BLKDV, aes(Response, Percent)) +
+ geom_col() +
+ facet_wrap(nrow = 1, vars(Year))
+
+
+BLKDV[BLKDV == 'Mostly Bad'] <- 'Bad'
+BLKDV[BLKDV == 'Mostly Good'] <- 'Good'
+
+
+## plot one fig by gender+Ethnicity
+ggplot(BLKDV)+
+  geom_bar(aes(x=Response,y=Percent,fill=Response),stat="identity")+
+  labs(title = "Development For People Like Me Is Mostly:",
+       subtitle = "Among Black Respondents",
+       y = "Percent", x = "Response",fill="Response") +
+  facet_wrap(nrow =1, ~Year)
+
+
+# Development is GOod for people like me percent for Black residents 
+WhtDV00 <- mutate( WhtDV00, 
+                   Percent = (n/sum(n)*100))
+
+WhtDV06 <- mutate( WhtDV06, 
+                   Percent  = (n/sum(n)*100))
+
+WhtDV14 <- mutate( WhtDV14, 
+                   Percent = (n/sum(n)*100))
+
+WhtDV15 <- mutate( WhtDV15, 
+                   Percent = (n/sum(n)*100))
+
+
+colnames(WhtDV00) <- c("Response", "n", "Percent")
+colnames(WhtDV06) <- c("Response", "n", "Percent")
+colnames(WhtDV14) <- c("Response", "n", "Percent")
+colnames(WhtDV15) <- c("Response", "n", "Percent")
+
+
+WhtDV00$Response[WhtDV00$Response== "Mainly good"] <- "Mostly Good"
+WhtDV00$Response[WhtDV00$Response== "Mainly bad"] <- "Mostly Bad"
+WhtDV00$Response[WhtDV00$Response== "Don't know"] <- "DK"
+
+WHTDV <-rbind(WhtDV00, WhtDV06, WhtDV14, WhtDV15)
+#colnames(WHTDV) <- c("Response", "n", "Percent")
+
+
+WHTDV['Year'] <- c(2000, 2000, 2000, 2000, 2006, 2006, 2006, 2006,
+                   2014, 2014, 2014, 2014, 2015, 2015, 2015, 2015 )
+
+
+#n/sum(n)*100
+ggplot(WHTDV, aes(Response, Percent)) +
+  geom_col() +
+  facet_wrap(nrow = 1, vars(Year))
+
+
+WHTDV[WHTDV == 'Mostly Bad'] <- 'Bad'
+WHTDV[WHTDV == 'Mostly Good'] <- 'Good'
+
+
+## plot one fig by gender+Ethnicity
+ggplot(WHTDV)+
+  geom_bar(aes(x=Response,y=Percent,fill=Response),stat="identity")+
+  labs(title = "Development For People Like Me Is Mostly:",
+       subtitle = "Among White Respondents",
+       y = "Percent", x = "Response",fill="Response") +
+  facet_wrap(nrow =1, ~Year)
 
 
 ## line graph 
@@ -2595,12 +2791,12 @@ PlotDV4PplLikeMe <-
   ggplot(DV4PplLikeMe, aes(x = Year, y = Support, color = Race)) +
   geom_line() +
   scale_y_continuous(limits = c(0,100)) +
-  ggtitle("Gentrification Benefits People Like Me") +
+  ggtitle("Redevelopment Benefits People Like Me") +
   ylab("Percent Agree")+
   xlab("Year of Survey ")+
   theme_minimal() 
 
-#PlotDV4PplLikeMe
+PlotDV4PplLikeMe
 
 ###### Your neighborhood 02, 06, 08#######
 ####### Support Gen 
@@ -2941,7 +3137,7 @@ plotBlkDVLowIncome06 <-
 BlackViewsByincome06 <- plot_grid(plotBlkDVLowIncome06, plotBlkDVMedIncome06, plotBlkDVHighIncome06,
                                   nrow = 1, labels = "Black Views Towards Gentrification 2006",
                                   rel_heights = c(.01,.01))
-#BlackViewsByincome06
+BlackViewsByincome06
 
 
 ### Interactions of White and High Income 2006  ######
@@ -3129,7 +3325,7 @@ WhiteresMedIncomeDF14 <- WhiteresMedIncomeDF14 %>%
   count(q32a)
 
 # Creates character out of column 1 not double
-#WhiteresMedIncomeDF14$q32a <- as.numeric(WhiteresMedIncomeDF14$q32a)
+WhiteresMedIncomeDF14$q32a <- as.numeric(WhiteresMedIncomeDF14$q32a)
 WhiteresMedIncomeDF14$q32a[WhiteresMedIncomeDF14$q32a== 1] <- "Mostly Good"
 WhiteresMedIncomeDF14$q32a[WhiteresMedIncomeDF14$q32a== 2] <- "Mostly Bad"
 WhiteresMedIncomeDF14$q32a[WhiteresMedIncomeDF14$q32a== 3 |WhiteresMedIncomeDF14$q32a== 4] <- "Neither/both"
@@ -3347,7 +3543,7 @@ PlotWhtLowIncomeGenPplLikeMe00to15 <- plot_grid( plotWhtDVLowIncome00, plotWhtDV
 LowIncomeRaceGenPplLikeMe00to15 <- plot_grid( PlotBlkLowIncomeGenPplLikeMe00to15, PlotWhtLowIncomeGenPplLikeMe00to15,
                                               nrow = 2)
 
-###### Regressions #######
+###### Regressions  Draft 2: The ones before the final ones #######
 #install.packages("stargazer")
 library(stargazer)
 
@@ -3362,388 +3558,701 @@ m2000B <- lm(DevGood4PplYou ~ Black + Female , data= DF00)
 m2000C <- lm(DevGood4PplYou ~ Black + Female + HighIncome + Black*HighIncome, data = DF00)
 stargazer(m2000C)
 
-# Dev Good in General
-m2002A <-  lm(DevMainlyGood ~ Black + Ward8 + Rent + DevInMyNbhd +Age, data= DF02)
-m2002B <-  lm(DevMainlyGood ~ Black + Female + Rent + Ward8+ DevInMyNbhd +Age + INCOME + EDUC, data= DF02)
-m2002C <-  lm(DevMainlyGood ~ Black + Female + Rent  + Ward2 + Ward3 + Ward4+ Ward5 + Ward6 + Ward7 + Ward8  +Age , data= DF02)
-m2002D <-  lm(DevMainlyGood ~ Black + Female + Rent + Ward2 + Ward3 + Ward4+ Ward5 + Ward6 + Ward7 + Ward8 + DevInMyNbhd +Age + HighIncome + CollegeGrad + Black*HighIncome, data= DF02)
-#stargazer(m2002A, m2002B, m2002C, m2002D)
+# ##### Regressions Draft Final (For APSA) ######
+# # Looking only at B&W respondents who feel development is good or bad
+blackwhite11 <- filter(DF11, qnd11a == "Black" | qnd11a == "White")
+# bwdevgoodbad11 <- filter(DF11, DevMainlyBad == 1 | DevMainlyGood == 1)          
+# 
+# DevMainlyBad11LoG <- lm(DevMainlyBad ~ Black + Female + LowIncome + MedIncome +
+#                        Age + Ward1 + Ward3 + Ward4 + Ward5 +Ward6 + Ward7 + 
+#                        Ward8 + Own + FallBehind + Maintain +  RatioLifeinDC,  
+#                         data = bwdevgoodbad11)
+# 
+# summary(DevMainlyBad11LoG)
+# 
+# DevMainlyBad11 <- lm(DevMainlyBad ~ Black + Female + LowIncome + MedIncome +
+#                        Age + Ward1 + Ward3 + Ward4 + Ward5 +Ward6 + Ward7 + 
+#                        Ward8 + Own + FallBehind + Maintain +  RatioLifeinDC,  data = blackwhite11)
+# # Education was not asked in 2011 --checked 8/27
+# summary(DevMainlyBad11)
+# 
+# summary(lm(Age ~ RatioLifeinDC + WholeLifeinDC, data = DF11)) #Age is negatively associated with living whole life in DC and positively associated with Ratio of life in DC. 
+# 
+# blackwhite14 <- filter(DF14, Race == 2 | Race == 1)
+# 
+# DevMainlyBad14 <- lm(DevMainlyBad ~ Black + Female + LowIncome + MedIncome + 
+#                        Ward1 + Ward3 + Ward4 + Ward5 + Ward6 + Ward7 + Ward8 
+#                      + LessHSEdu + HSGrad + Age + RatioLifeinDC, 
+#                      data = blackwhite14)
+# 
+# library(stargazer)
+# stargazer(DevMainlyBad11, DevMainlyBad14, title = "Development is Mainly Bad")
+# 
+# 
+# ##### Models for Black residents  blackres  ######
+# black11 <- filter(DF11, qnd11a == "Black" )
+# 
+# DevMainlyBad11_BlkRes <- lm(DevMainlyBad ~ Female + LowIncome + MedIncome +
+#                               Age + Ward1 + Ward3 + Ward4 + Ward5 +Ward6 + Ward7 + 
+#                               Ward8 + Own + FallBehind + Maintain +  RatioLifeinDC,  data = black11)
+# # Education was not asked in 2011 --checked 8/27
+# 
+# blackres14 <- filter(DF14, Race == 2)
+# 
+# DevMainlyBad14_BlkRes <- lm(DevMainlyBad ~ Female + LowIncome + MedIncome + 
+#                               Ward1 + Ward3 + Ward4 + Ward5 + Ward6 + Ward7 + Ward8 
+#                             + LessHSEdu + HSGrad + Age + RatioLifeinDC, 
+#                             data = blackres14)
+# 
+# stargazer(DevMainlyBad11_BlkRes, DevMainlyBad14_BlkRes, title = "Development is Mainly Bad: Interractions for Black Residents")
+# 
+# ###### Models for Black resident -- Dev in My NBHD#####
+# blackres02 <- filter(DF02, Black == 1)
+# 
+# DevInMyNbhDBlk02 <- lm(DevInMyNbhd ~ + Ward1 + Ward2 + Ward4 + Ward5 + Ward6 + 
+#                          Ward7 + Ward8 +  WholeLifeinDC, data = blackres02)
+# 
+blackres11 <- filter(DF11, qnd11a == "Black")
+# 
+# DevInMyNbhDBlk11 <- lm(DevInMyNbhd ~ + Ward1 + Ward2 + Ward4 + Ward5 + Ward6 + 
+#                          Ward7 + Ward8 + WholeLifeinDC, data = blackres11)
+# 
+# stargazer(DevInMyNbhDBlk02, DevInMyNbhDBlk11, title = "Development is in My Neighborhood: Black Residents")
+# 
+# #### Dev in my neighborhood all residents ########
+# 
+# DevInMyNbhD02 <- lm(DevInMyNbhd ~ Ward1 + Ward2 + Ward4 + Ward5 +Ward6 + Ward7 + Ward8 + WholeLifeinDC, data = blackres02)
+# 
+# DevInMyNbhD11 <- lm(DevInMyNbhd ~ Ward1 + Ward2 + Ward4 + Ward5 +Ward6 + Ward7 + Ward8 +WholeLifeinDC , 
+#                     data = DF11)
+# 
+# stargazer(DevInMyNbhD02, DevInMyNbhD11, title = "Development is in My Neighborhood")
+# 
+# # DevInMyNbd <- 
+# #   DF02 %>%
+# #   group_by(Q43) %>%
+# #   count(DevInMyNbhd)
+# # DevInMyNbd <- (DevInMyNbd[3])
+# # 
+# # WardsForTables <- 
+# #   DF14 %>%
+# #   group_by(wardnew) %>%
+# #   count()
+# # wards <- unlist(WardsForTables[1])
+# # 
+# # popchangeTable <- data.frame(total_PopChange, wards)
+# # PlotPopChange<- 
+# #   ggplot(popchangeTable, aes(x = wards, y = total_PopChange)) +
+# #   geom_col() +
+# #   scale_y_continuous(expand = expansion(mult = c(0.1, 0.1))) +
+# #   labs(y = "Percent Change", x = "Ward", title = "Ward Population Change 1980-2010") +
+# #   geom_text(aes(label = signif(n/sum(n)*100, digits = 3)), vjust = -0.5) +
+# #   theme_minimal()
+# # PlotPopChange
+# 
+# #### Models Winners and Losers  ##############
+# #### Development for People like me ############
+# blackwhite06 <- filter(DF06, Race == 1 | Race == 2)
+# 
+# DevBad4PplYou06 <- lm(DevBad4PplYou ~ Black + Female + LowIncome + MedIncome + 
+#                         Ward1 + Ward2 + Ward4 + Ward5 + Ward6 + Ward7 + Ward8 +
+#                         LessHSEdu + HSGrad + Age + RatioLifeinDC , 
+#                       data = blackwhite06)
+# 
+# blackwhite14 <- filter(DF14, Race == 2 | Race == 1)
+# 
+# DevBad4PplYou14 <- lm(DevBad4PplYou ~ Black + Female + LowIncome + MedIncome + 
+#                         Ward1 + Ward2 + Ward4 + Ward5 + Ward6 + Ward7 + Ward8 + 
+#                         LessHSEdu + HSGrad + Age + RatioLifeinDC, data = blackwhite14)
+# 
+# blackwhite15 <- filter(DF15, race == 2 | race == 1)
+# 
+# DevBad4PplYou15 <- lm(DevBad4PplYou ~ Black + Female + LowIncome + MedIncome + 
+#                         Ward1 + Ward2 + Ward4 + Ward5 + Ward6 + Ward7 + Ward8 +
+#                         LessHSEdu + HSGrad + Age + RatioLifeinDC, 
+#                       data = blackwhite15)
+# 
+# stargazer(DevBad4PplYou06, DevBad4PplYou14, DevBad4PplYou15, title = "Development is Bad For People Like You")
+# 
+# #### Development is Good for the city  ######
+# blackwhite00 <- filter(DF00, race == "White" | race == "Black")
+# 
+# DevGood4City00 <- lm( DevGood4City ~ Black + Female, data = blackwhite00)
+# 
+# DevGood4City06 <- lm(DevGood4City ~ Black + Female+ LessHSEdu + HSGrad, data = blackwhite06)
+# 
+# blackwhite08 <- filter(DF08,RACENET == 1 | RACENET ==2 )
+# 
+# DevGood4City08 <- lm(DevGood4City ~ Black + Female + LessHSEdu + HSGrad, data = blackwhite08)
+# 
+# 
+# stargazer(DevGood4City00, DevGood4City06, DevGood4City08, title = "Development is Good for the City" )
+# 
+# 
+# ###### Dev is Good for the City With Wards
+# DevGood4City06 <- lm(DevGood4City ~ Black + Female + LowIncome + MedIncome + 
+#                        Ward1 + Ward2 + Ward4 + Ward5 + Ward6 + Ward7 + Ward8 +
+#                        LessHSEdu + HSGrad + Age + RatioLifeinDC, data = blackwhite06)
+# 
+# DevGood4City08 <- lm(DevGood4City ~ Black + Female + LowIncome + MedIncome +
+#                        Ward1 + Ward2 + Ward4 + Ward5 + Ward6 + Ward7 + Ward8  + 
+#                        LessHSEdu + HSGrad + Age, data = blackwhite08)
+# 
+# stargazer(DevGood4City06, DevGood4City08, title = "Development is Good for the City: With Wards")
+# 
+# ##### Development is Good for the Rich 06, 08 14 #######
+# DevGood4Rich06 <- lm(DevGood4Rich ~ Black + Female + LowIncome + MedIncome + Ward1 + Ward2 + Ward4 + Ward5
+#                      + Ward6 + Ward7 + Ward8 +  LessHSEdu + HSGrad + 
+#                        Age + RatioLifeinDC, data = blackwhite06)
+# 
+# DevGood4Rich08 <- lm(DevGood4Rich ~ Black + Female + LowIncome + MedIncome + Ward1 + Ward2 + Ward4 + Ward5
+#                      + Ward6 + Ward7 + Ward8 +  LessHSEdu + HSGrad + 
+#                        Age , data = blackwhite08)
+# 
+# DevGood4Rich14 <- lm(DevGood4Rich ~ Black + Female + LowIncome + MedIncome + Ward1 + Ward2 + Ward4 + Ward5
+#                      + Ward6 + Ward7 + Ward8 +  LessHSEdu + HSGrad + 
+#                        Age + RatioLifeinDC, data = blackwhite14)
+# 
+# stargazer(DevGood4Rich06, DevGood4Rich08, DevGood4Rich14, title = "Development is Good for the Rich")
+# 
+# 
+# ###### Development is Good for the Poor ###########
+# 
+# DevGood4Poor06 <- lm(DevGood4Poor ~Black + Female + LowIncome + MedIncome + Ward1 + Ward2 + Ward4 + Ward5
+#                      + Ward6 + Ward7 + Ward8 +  LessHSEdu + HSGrad + 
+#                        Age + RatioLifeinDC, data = blackwhite06)
+# 
+# DevGood4Poor08 <- lm(DevGood4Poor ~ Black + Female + LowIncome + MedIncome + Ward1 + Ward2 + Ward4 + Ward5
+#                      + Ward6 + Ward7 + Ward8 +  LessHSEdu + HSGrad + 
+#                        Age , data = blackwhite08)
+# 
+# 
+# DevGood4Poor14 <- lm(DevGood4Poor ~ Black + Female + LowIncome + MedIncome + Ward1 + Ward2 + Ward4 + Ward5
+#                      + Ward6 + Ward7 + Ward8 +  LessHSEdu + HSGrad + 
+#                        Age + RatioLifeinDC, data = blackwhite14)
+# 
+# stargazer(DevGood4Poor06, DevGood4Poor08, DevGood4Poor14, title = "Development is Good for the Poor")
+# 
+# ###### Development is Bad for the Poor ###########
+# 
+# DevBad4Poor06 <- lm(DevBad4Poor ~Black + Female + LowIncome + MedIncome + Ward1 + Ward2 + Ward4 + Ward5
+#                      + Ward6 + Ward7 + Ward8 +  LessHSEdu + HSGrad + 
+#                        Age + RatioLifeinDC, data = blackwhite06)
+# 
+# DevBad4Poor08 <- lm(DevBad4Poor ~ Black + Female + LowIncome + MedIncome + Ward1 + Ward2 + Ward4 + Ward5
+#                      + Ward6 + Ward7 + Ward8 +  LessHSEdu + HSGrad + 
+#                        Age , data = blackwhite08)
+# 
+# 
+# DevBad4Poor14 <- lm(DevBad4Poor ~ Black + Female + LowIncome + MedIncome + Ward1 + Ward2 + Ward4 + Ward5
+#                      + Ward6 + Ward7 + Ward8 +  LessHSEdu + HSGrad + 
+#                        Age + RatioLifeinDC, data = blackwhite14)
+# 
+# stargazer(DevBad4Poor06, DevBad4Poor08, DevBad4Poor14, title = "Development is Bad for the Poor")
+# 
+# 
+# ####### Displacement 
+# ##### Development has caused you to consider moving ######
+# 
+# colnames(DF02)[colnames(DF02) == "AGE"] <- "Age"
+# blackwhite02 <- filter(DF02, RACE == 1 | RACE == 2)
+# 
+# DevYesMove02 <- lm(DevYesMove ~  Black +  Female +LowIncome +  Ward1 + 
+#                      Ward2 + Ward4 + Ward5 + Ward6 + Ward7 + Ward8 +  HSGrad+ HSGrad 
+#                    + Age + RatioLifeinDC + Own, data = DF02)
+# 
+# DevYesMove06 <- lm(DevYesMove ~Black + Female + LowIncome + MedIncome + Ward1 + Ward2 + Ward4 + Ward5
+#                     + Ward6 + Ward7 + Ward8 +  LessHSEdu + HSGrad + 
+#                       Age + RatioLifeinDC, data = blackwhite06)
+# 
+# DevYesMove08 <- lm(DevYesMove ~ Black + Female + LowIncome + MedIncome + Ward1 + Ward2 + Ward4 + Ward5
+#                     + Ward6 + Ward7 + Ward8 +  LessHSEdu + HSGrad + 
+#                       Age + Own, data = blackwhite08)
+# 
+# stargazer(DevYesMove02, DevYesMove06, DevYesMove08)
+# 
+# 
+# # Could Move within DC
+# 
+# OutsideDC02 <- lm(OutsideDC ~  Black +  Female +LowIncome +  Ward1 + 
+#                      Ward2 + Ward4 + Ward5 + Ward6 + Ward7 + Ward8 +  HSGrad+ HSGrad 
+#                    + Age + RatioLifeinDC + Own, data = blackwhite02)
+# 
+# OutsideDC06 <- lm(OutsideDC ~Black + Female + LowIncome + MedIncome + Ward1 + 
+#                     Ward2 + Ward4 + Ward5
+#                    + Ward6 + Ward7 + Ward8 +  LessHSEdu + HSGrad + 
+#                      Age + RatioLifeinDC, data = blackwhite06)
+# 
+# OutsideDC08 <- lm(OutsideDC ~ Black + Female + LowIncome + MedIncome + Ward1 + 
+#                     Ward2 + Ward4 + Ward5 + Ward6 + Ward7 + Ward8 +  LessHSEdu + 
+#                     HSGrad + Age + Own, data = blackwhite08)
+# 
+# 
+# OutsideDC11 <- lm(OutsideDC ~ Black + Female + LowIncome + MedIncome + Ward1 + 
+#                     Ward2 + Ward4 + Ward5 + Ward6 +  Ward7 + Ward8 + Age + 
+#                     Own, data = blackwhite11)
+# 
+# OutsideDC15 <- lm(OutsideDC ~ Black + Female + LowIncome + MedIncome  + Ward1 +
+#                     Ward2 + Ward4 + Ward5 + Ward6 + Ward7 + Ward8 + Age + 
+#                     Own + RatioLifeinDC, data = blackwhite15)
+# 
+# stargazer(OutsideDC06, OutsideDC08, OutsideDC15)
+# 
+# ###### Could buy home 
+# CouldNotBuyHome06 <- lm(CouldNotBuyHome ~Black + Female + LowIncome + MedIncome + Ward1 + 
+#                     Ward2 + Ward4 + Ward5
+#                   + Ward6 + Ward7 + Ward8 +  LessHSEdu + HSGrad + 
+#                     Age + RatioLifeinDC, data = blackwhite06)
+# 
+# CouldNotBuyHome08 <- lm(CouldNotBuyHome ~ Black + Female + LowIncome + MedIncome + Ward1 + 
+#                     Ward2 + Ward4 + Ward5 + Ward6 + Ward7 + Ward8 +  LessHSEdu + 
+#                     HSGrad + Age + Own, data = blackwhite08)
+# 
+# stargazer(CouldNotBuyHome06, CouldNotBuyHome08)
+# 
+# 
+# 
+# # Could Move within DC
+# 
+# BlkOutsideDC02 <- lm(OutsideDC ~   Female +LowIncome +  Ward1 + 
+#                     Ward2 + Ward4 + Ward5 + Ward6 + Ward7 + Ward8 +  HSGrad+ HSGrad 
+#                   + Age + RatioLifeinDC + Own, data = blackres02)
+# 
+# BlkOutsideDC06 <- lm(OutsideDC ~ Female + LowIncome + MedIncome + Ward1 + 
+#                     Ward2 + Ward4 + Ward5
+#                   + Ward6 + Ward7 + Ward8 +  LessHSEdu + HSGrad + 
+#                     Age + RatioLifeinDC, data = blackres06)
+# 
+# BlkOutsideDC08 <- lm(OutsideDC ~  Female + LowIncome + MedIncome + Ward1 + 
+#                     Ward2 + Ward4 + Ward5 + Ward6 + Ward7 + Ward8 +  LessHSEdu + 
+#                     HSGrad + Age + Own, data = blackres08)
+# 
+# 
+# BlkOutsideDC11 <- lm(OutsideDC ~ Female + LowIncome + MedIncome + Ward1 + 
+#                     Ward2 + Ward4 + Ward5 + Ward6 +  Ward7 + Ward8 + Age + 
+#                     Own, data = blackres11)
+# 
+# BlkOutsideDC15 <- lm(OutsideDC ~ Female + LowIncome + MedIncome  + Ward1 +
+#                     Ward2 + Ward4 + Ward5 + Ward6 + Ward7 + Ward8 + Age + 
+#                     Own + RatioLifeinDC, data = blackres15)
+# 
+# stargazer(BlkOutsideDC06, BlkOutsideDC08, BlkOutsideDC15)
+# 
+# ###### Could buy home 
+# 
+# BlkCouldNotBuyHome06 <- lm(CouldNotBuyHome ~ Female + LowIncome + MedIncome + Ward1 + 
+#                           Ward2 + Ward4 + Ward5
+#                         + Ward6 + Ward7 + Ward8 +  LessHSEdu + HSGrad + 
+#                           Age + RatioLifeinDC, data = blackres06)
+# 
+# BlkCouldNotBuyHome06LoG <- lm(CouldNotBuyHome ~ Female + LowIncome + MedIncome +
+#                                 Ward1 + Ward2 + Ward4 + Ward5 + Ward6 + Ward7 + 
+#                                 Ward8 +  LessHSEdu + HSGrad +  Age + 
+#                                 RatioLifeinDC, data = blackres06)
+# # This model has a negative R^2 so is overparameratized
+# 
+# BlkCouldNotBuyHome06LoGA <- lm(CouldNotBuyHome ~  LowIncome + MedIncome +
+#                                 Ward1 + Ward2 + Ward4 + Ward5 + Ward6 + Ward7 + 
+#                                 Ward8 , data = blackres06)
+# summary(BlkCouldNotBuyHome06LoGA)
+# 
+# BlkCouldNotBuyHome06LoGB <- lm(CouldNotBuyHome ~ Female + LowIncome + MedIncome + RatioLifeinDC, data = blackres06)
+# summary(BlkCouldNotBuyHome06LoGB)
+# # These models remain over specified 
+# 
+# BlkCouldNotBuyHome08 <- lm(CouldNotBuyHome ~ Female + LowIncome + MedIncome + Ward1 + 
+#                           Ward2 + Ward4 + Ward5 + Ward6 + Ward7 + Ward8 +  LessHSEdu + 
+#                           HSGrad + Age + Own, data = blackres08)
+# 
+# BlkCouldNotBuyHome08LoG <- lm(CouldNotBuyHome ~ Female + LowIncome + MedIncome + Ward1 + 
+#                              Ward2 + Ward4 + Ward5 + Ward6 + Ward7 + Ward8 +  LessHSEdu + 
+#                              HSGrad + Age + Own, data = blackres08)
+# summary(BlkCouldNotBuyHome08LoG)
+# 
+# 
+# stargazer(BlkCouldNotBuyHome06, BlkCouldNotBuyHome08)
 
 
-## Dev Good for People Like Me 2006 
-m2006A <-  lm(DevGood4PeopleLikeU ~ Black +  Ward2 + Ward3 + Ward4+ Ward5 + Ward6 + Ward7 + Ward8  + Age + Rent + Female +income +edubreak, data= DF06)
-#m2006B <-  lm(DevGood4PeopleLikeU ~ Black +  Ward2 + Ward3 + Ward4+ Ward5 + Ward6 + Ward7 + Ward8  + Age + Rent +Party+ Female +income +edubreak, data= DF06)
-#stargazer(m2006A, m2006B)
+##### Regressions Draft Final (For APSA2) ######
 
-m2006C <-  lm(DevGood4PeopleLikeU ~ Black +  Ward2 + Ward3 + Ward4+ Ward5 + Ward6 + Ward7 + Ward8  + Age + Rent + Female + HighIncome + CollegeGrad + Black*HighIncome, data= DF06)
-
-
-
-## 2008  Development is mainly good for the city Q909= edu
-#m2008A <- lm(DevGood4City ~ Black +  Ward2 + Ward3 + Ward4+ Ward5 + Ward6 + Ward7 + Ward8  + Age + Rent + Female + ForcedMoveLikely + HighIncome +Q909, data= DF08)
-#stargazer(m2008A)
-
-#m2008C <- lm(DevGood4City ~ Black +  Ward2 + Ward3 + Ward4+ Ward5 + Ward6 + Ward7 + Ward8  + Age + Rent + Female + ForcedMoveLikely + HighIncome + CollegeGrad + Black*HighIncome, data= DF08)
-#stargazer(m2008C)
-
-## Dev Good for ..... 2011 DevMainlyGood
-# Development is mainly good xnd15c is income
-#m2011A <- lm(DevMainlyGood ~ Black +  Ward2 + Ward3 + Ward4+ Ward5 + Ward6 + Ward7 + Ward8  + Rent + DevInNbhd + xnd15c, data= DF11)
-#summary(m2011A)
-#stargazer(m2011A)
-
-### Dev Good for people like me 2014
-## Development is mainly a good thing ProGen
-#m2014A <- lm(ProGen ~ Black +  Ward2 + Ward3 + Ward4+ Ward5 + Ward6 + Ward7 + Ward8 + YrsinDC6to19+ YrsinDC20to39 + YrsinDC40Plus + YrsinDCWholeLife + HighIncome + CollegeGrad + Black*HighIncome, data= DF14)
-#stargazer(m2014A)
-
-#m2014B <- lm(ProGen ~ Black +  Ward2 + Ward3 + Ward4+ Ward5 + Ward6 + Ward7 + Ward8 , data= DF14)
-#summary(m2014B)
-#stargazer(m2014B)
-
-
-### Dev Good for people like me 2015 ReDevGood dev for people like me 
-#m2015A <- lm(ReDevGood ~ Black + Ward2 + Ward3 + Ward4+ Ward5 + Ward6 + Ward7 + Ward8 + Age + Female + HighIncome + Black*HighIncome, data= DF15)
-#stargazer(m2015A)
-
-# New interractions
-RegInts <- stargazer(m2000C, m2006C )
-
-RegAll1 <- stargazer(m2000C, m2002D, m2006C)
-
-RegAll2 <- stargazer(m2008C, m2014A, m2015A)
-
-
-#### DEV Good For Rich
-Dev4Rich00 <- lm(DevGood4Rich ~ Black + Female + LowIncome + MedIncome, data = DF00) #Not sure why income is NA
-
-Dev4Rich06 <- lm(DevGood4Rich ~ Black + Female + Age + LowIncome + MedIncome + OutsideDC + WholeLifeinDC + Less1YearinDC + Ward2 + Ward3 + Ward4 + Ward5 + Ward6 + Ward7 + Ward8 + Rent + Dem + NotRegistered + Dem, data = DF06)
-
-Dev4Rich08 <- lm(DevGood4Rich ~ Black + Female + Age + LowIncome + MedIncome + OutsideDC +Ward2 + Ward3 + Ward4 + Ward5 + Ward6 + Ward7 + Ward8 + Rent + Dem + NotRegistered +DevYesMove + DevMaybeMove + DevMoveHappened +CouldNotBuyHome + VWorriedHousingCosts + WorriedHousingCosts + FallBehind, data = DF08)
-
-Dev4Rich14 <- lm(DevGood4Rich ~ Black + Female + Age + LowIncome + MedIncome + Ward2 + Ward3 + Ward4 + Ward5 + Ward6 + Ward7 + Ward8 + Dem + NotRegistered, data = DF14)
-
-stargazer(Dev4Rich00, Dev4Rich06, Dev4Rich08, Dev4Rich14)
-
-### Dev Bad For Poor
-Dev4Poor00  <- lm(DevBad4Poor ~ Black + Female + LowIncome + MedIncome, data = 
-                    DF00) #Not sure why income is NA
-
-Dev4Poor06  <- lm(DevBad4Poor ~ Black + Female + LowIncome + MedIncome + OutsideDC 
-                  + WholeLifeinDC + Less1YearinDC + Ward2 + Ward3 + Ward4 + Ward5 
-                  + Ward6 + Ward7 + Ward8 
-                  + Rent + Dem + NotRegistered + Dem, data = DF06)
-
-Dev4Poor08  <- lm(DevBad4Poor ~ Black + Female + LowIncome + MedIncome + OutsideDC 
-                  +Ward2 + Ward3 + Ward4 + Ward5 + Ward6 + Ward7 + Ward8 + Rent + 
-                    Dem + NotRegistered +DevYesMove + DevMaybeMove + DevMoveHappened 
-                  +CouldNotBuyHome + VWorriedHousingCosts + WorriedHousingCosts 
-                  + FallBehind, data = DF08)
-
-Dev4Poor14  <- lm(DevBad4Poor ~ Black + Female + LowIncome + MedIncome + Ward2 + 
-                    Ward3 + Ward4 + Ward5 + Ward6 + Ward7 + Ward8 + Dem + NotRegistered, 
-                  data = DF14)
-
-stargazer(Dev4Poor00, Dev4Poor06, Dev4Poor08, Dev4Poor14)
-
-### Dev is mainly Good
-DevMainlyGood02 <- lm(DevMainlyGood ~ White + Male + HighIncome +
-                        Age + Ward1 + Ward3 + Ward4 + Ward5 +Ward6 + Ward7 + 
-                        Ward8 + CollegeGrad + Own + Dem + DCRaceRelationsBetter 
-                      + WholeLifeinDC + Less1YearinDC, data = DF02)
-
-DevMainlyGood11 <- lm(DevMainlyGood ~ White + Male + HighIncome + MedIncome +
-                      Age + Ward1 + Ward3 + Ward4 + Ward5 +Ward6 + Ward7 + 
-                        Ward8 + Own + GettingAhead + Maintain + WholeLifeinDC 
-                      + Less1YearinDC,  data = DF11)
-
-DevMainlyGood14 <- lm(DevMainlyGood ~ White + Male + HighIncome + MedIncome + 
-                        Ward1 + Ward3 + Ward4 + Ward5 + Ward6 + Ward7 + Ward8 +
-                        WholeLifeinDC + Less1YearinDC + 
-                        + Conservative + Moderate + Registered, data = DF14)
-
-stargazer(DevMainlyGood02, DevMainlyGood11, DevMainlyGood14)
-
-
-### Dev is mainly Bad
-DevMainlyBad02 <- lm(DevMainlyBad ~ Black + Female + LowIncome +
-                        Age + Ward1 + Ward3 + Ward4 + Ward5 +Ward6 + Ward7 + 
-                        Ward8 + LessHSEdu + HSGrad + Own + Dem + DCRaceRelationsBetter 
-                      + WholeLifeinDC + Less1YearinDC, data = DF02)
-
-DevMainlyBad02B <- lm(DevMainlyBad ~ Black + Female + 
-                       Age + Ward1 + Ward3 + Ward4 + Ward5 +Ward6 + Ward7 + 
-                       Ward8 + LessHSEdu + HSGrad + Own + Dem + DCRaceRelationsBetter 
-                     + WholeLifeinDC , data = DF02)
+library(tidyverse)
+# Looking only at B&W respondents who feel development is good or bad
+blackwhite11 <- filter(DF11, qnd11a == "Black" | qnd11a == "White")
+bwdevgoodbad11 <- filter(DF11, DevMainlyBad == 1 | DevMainlyGood == 1)          
 
 DevMainlyBad11 <- lm(DevMainlyBad ~ Black + Female + LowIncome + MedIncome +
-                        Age + Ward1 + Ward3 + Ward4 + Ward5 +Ward6 + Ward7 + 
-                        Ward8 + Own + GettingAhead + Maintain + WholeLifeinDC 
-                     + Less1YearinDC,  data = DF11)
+                          Ward1 + Ward2 + Ward4 + Ward5 +Ward6 + Ward7 + 
+                           Ward8 + Rent + FallBehind + Maintain + Age+ RatioLifeinDC,  
+                          data = bwdevgoodbad11)
 
-DevMainlyBad14 <- lm(DevMainlyBad ~ Black + Female + LowIncome + MedIncome + 
-                        Ward1 + Ward3 + Ward4 + Ward5 + Ward6 + Ward7 + Ward8 
-                     + LessHSEdu + HSGrad + WholeLifeinDC + Less1YearinDC + Liberal + Moderate 
-                     +DivBoth , data = DF14)
-
-stargazer(DevMainlyBad02B, DevMainlyBad11, DevMainlyBad14)
-
-
-## Dev Good For Whites
-
-DevGood4Whts00  <- lm(DevGood4Whts ~ Black + Female + LowIncome , data = 
-                    DF00)
-
-DevGood4Whts06 <- lm(DevGood4Whts ~ Black + Female + LowIncome + MedIncome + OutsideDC 
-                      + WholeLifeinDC + Less1YearinDC + Ward2 + Ward3 + Ward4 + Ward5 
-                      + Ward6 + Ward7 + Ward8 
-                      + Rent + Dem + Dem, data = DF06)
-
-DevGood4Whts14 <- lm(DevGood4Whts ~ Black + Female + LowIncome + MedIncome + 
-                        Ward1 + Ward3 + Ward4 + Ward5 + Ward6 + Ward7 + Ward8 +
-                        WholeLifeinDC + Less1YearinDC + 
-                        + Conservative + Moderate + Registered, data = DF14)
-
-stargazer(DevGood4Whts00, DevGood4Whts06, DevGood4Whts14)
+summary(DevMainlyBad11)
+#calculate McFadden's R-squared for model
+with(summary(DevMainlyBad11), 1 - deviance/null.deviance)
+# Education was not asked in 2011 --checked 8/27
+blackwhite14 <- filter(DF14, Race == 2 | Race == 1)
+bwdevgoodbad14 <- filter(DF14, DevMainlyBad == 1 | DevMainlyGood == 1)          
 
 
-## Dev Bad for Blacks
+DevMainlyBad14 <- lm(DevMainlyBad ~ Black + Female +  LowIncome +  MedIncome +
+                       Ward1 + Ward2 + Ward4 + Ward5 + Ward6 + Ward7 + Ward8 
+                     + LessHSEdu + HSGrad + Age + RatioLifeinDC, 
+                     data = bwdevgoodbad14)
 
-DevBad4Blks00  <- lm(DevBad4Blks ~ Black + Female + LowIncome , data = 
-                        DF00)
+summary(DevMainlyBad14)
+#calculate McFadden's R-squared for model
+with(summary(DevMainlyBad14), 1 - deviance/null.deviance)
 
-DevBad4Blks06 <- lm(DevBad4Blks ~ Black +Female + LowIncome + MedIncome + OutsideDC 
-                     + WholeLifeinDC + Less1YearinDC + Ward2 + Ward3 + Ward4 + Ward5 
-                     + Ward6 + Ward7 + Ward8 
-                     + Rent + Dem + Dem, data = DF06)
-
-DevBad4Blks14 <- lm(DevBad4Blks ~ Black + Female + LowIncome + MedIncome + 
-                       Ward1 + Ward3 + Ward4 + Ward5 + Ward6 + Ward7 + Ward8 +
-                       WholeLifeinDC + Less1YearinDC + 
-                       + Conservative + Moderate + Registered, data = DF14)
-
-stargazer(DevBad4Blks00, DevBad4Blks06, DevBad4Blks14)
-  
-
-## Dev Good for Blacks
-
-DevGood4Blks00  <- lm(DevGood4Blks ~ Black + Female + LowIncome , data = 
-                       DF00)
-
-DevGood4Blks06 <- lm(DevGood4Blks ~ Black + Female + LowIncome + MedIncome + OutsideDC 
-                    + WholeLifeinDC + Less1YearinDC + Ward2 + Ward3 + Ward4 + Ward5 
-                    + Ward6 + Ward7 + Ward8 
-                    + Rent + Dem + Dem, data = DF06)
-
-DevGood4Blks14 <- lm(DevGood4Blks ~ Black + Female + LowIncome + MedIncome + 
-                      Ward1 + Ward3 + Ward4 + Ward5 + Ward6 + Ward7 + Ward8 +
-                      WholeLifeinDC + Less1YearinDC + 
-                      + Conservative + Moderate + Registered, data = DF14)
-
-stargazer(DevGood4Blks00, DevGood4Blks06, DevGood4Blks14)
-
-### Dev is Good for People like you
-
-DevGood4PplYou00  <- lm(DevGood4PplYou ~ Black + Female + LowIncome , data = 
-                        DF00)
-
-DevGood4PplYou06 <- lm(DevGood4PplYou ~ Black + Female + LowIncome + MedIncome + OutsideDC 
-                     + WholeLifeinDC + Less1YearinDC + Ward2 + Ward3 + Ward4 + Ward5 
-                     + Ward6 + Ward7 + Ward8 
-                     + Rent + Dem + Dem, data = DF06)
-
-DevGood4PplYou14 <- lm(DevGood4PplYou ~ Black + Female + LowIncome + MedIncome + 
-                       Ward2 + Ward3 + Ward4 + Ward5 + Ward6 + Ward7 + Ward8 +
-                       WholeLifeinDC + Less1YearinDC + 
-                       + Conservative + Moderate + Registered, data = DF14)
-
-DevGood4PplYou15 <- lm(DevGood4PplYou ~ Black + Female + LowIncome + MedIncome + 
-                       Ward2 + Ward3 + Ward4 + Ward5 + Ward6 + Ward7 + Ward8, data = DF15)
-
-stargazer(DevGood4PplYou00, DevGood4PplYou06, DevGood4PplYou14, DevGood4PplYou15)
-
-### Dev is Good for People like you (with interaction)
-DevGood4PplYou06B <- lm(DevGood4PplYou ~ Black + Female + HighIncome + Black*HighIncome + MedIncome + WithinDC + Black*WithinDC + Black*Own
-                       + WholeLifeinDC + Less1YearinDC + Ward2 + Ward3 + Ward4 + Ward5 
-                       + Ward6 + Ward7 + Ward8 + Dem + Dem, data = DF06)
-
-DevGood4PplYou14B <- lm(DevGood4PplYou ~ Black  + Female + HighIncome + MedIncome  +  Black+
-                         Ward2 + Ward3 + Ward4 + Ward5 + Ward6 + Ward7 + Ward8 +
-                         WholeLifeinDC + Less1YearinDC + 
-                         + Conservative + Moderate + Registered, data = DF14)
-
-DevGood4PplYou15B <- lm(DevGood4PplYou ~ Black  + Female + HighIncome + MedIncome + Black*HighIncome + Own + Black*Own+
-                         Ward2 + Ward3 + Ward4 + Ward5 + Ward6 + Ward7 + Ward8, data = DF15)
-
-stargazer(DevGood4PplYou06B, DevGood4PplYou14B, DevGood4PplYou15B)
-
-### Dev is Good for People like you (with interaction)
-
-DevGood4PplYou06C <- lm(DevGood4PplYou ~ White + Female + HighIncome + White*HighIncome + MedIncome + WithinDC + White*WithinDC + White*Own
-                        + WholeLifeinDC + Less1YearinDC + Ward2 + Ward3 + Ward4 + Ward5 
-                        + Ward6 + Ward7 + Ward8 + Dem + Dem, data = DF06)
-
-DevGood4PplYou14C <- lm(DevGood4PplYou ~ White  + Female + HighIncome + MedIncome  + 
-                          Ward2 + Ward3 + Ward4 + Ward5 + Ward6 + Ward7 + Ward8 +
-                          WholeLifeinDC + Less1YearinDC + 
-                          + Conservative + Moderate + Registered, data = DF14)
-
-DevGood4PplYou15C <- lm(DevGood4PplYou ~ White  + Female + HighIncome + MedIncome + White*HighIncome + Own + White*Own+
-                          Ward2 + Ward3 + Ward4 + Ward5 + Ward6 + Ward7 + Ward8, data = DF15)
-
-stargazer(DevGood4PplYou06C, DevGood4PplYou14C, DevGood4PplYou15C)
+library(stargazer)
+stargazer(DevMainlyBad11, DevMainlyBad14, title = "Gentrification is Mainly Bad")
 
 
+##### Models for Black residents  blackres  ######
+black11 <- filter(bwdevgoodbad11, qnd11a == "Black" )
 
-### Dev is Bad for People like you
+DevMainlyBad11_BlkRes <-lm(DevMainlyBad ~ Female + LowIncome + MedIncome +
+                              Age + Ward1 + Ward2 + Ward4 + Ward5 +Ward6 + Ward7 + 
+                              Ward8 + Rent + FallBehind + Maintain +  RatioLifeinDC,
+                              data = black11)
+# Education was not asked in 2011 --checked 8/27
 
-DevBad4PplYou00  <- lm(DevBad4PplYou ~ Black + Female + LowIncome , data = 
-                          DF06)
+blackres14 <- filter(bwdevgoodbad14, Race == 2)
 
-DevBad4PplYou06 <- lm(DevBad4PplYou ~ Black +  Female + LowIncome + MedIncome + OutsideDC 
-                       + WholeLifeinDC + Less1YearinDC + Ward2 + Ward3 + Ward4 + Ward5 
-                       + Ward6 + Ward7 + Ward8 
-                       + Rent + Dem + Dem, data = DF06)
+DevMainlyBad14_BlkRes <-lm(DevMainlyBad ~Female + LowIncome + MedIncome + 
+                              Ward1 + Ward2 + Ward4 + Ward5 + Ward6 + Ward7 + Ward8 
+                            + LessHSEdu + HSGrad + Age + RatioLifeinDC, 
+                            data = blackres14)
+# Table 2
+stargazer(DevMainlyBad11_BlkRes, DevMainlyBad14_BlkRes, title = "Gentrification is Mainly Bad: Black Residents")
 
-DevBad4PplYou14 <- lm(DevBad4PplYou ~ Black +Female + LowIncome + MedIncome + 
-                         Ward2 + Ward3 + Ward4 + Ward5 + Ward6 + Ward7 + Ward8 +
-                         WholeLifeinDC + Less1YearinDC + 
-                         + Conservative + Moderate + Registered, data = DF14)
+#### Models Winners and Losers  ##############
+#### Development for People like me ############
+blackwhite06 <- filter(DF06, Race == 1 | Race == 2)
+
+DevBad4PplYou06 <- lm(DevBad4PplYou ~ Black + Female + LowIncome + MedIncome + 
+                        Ward1 + Ward2 + Ward4 + Ward5 + Ward6 + Ward7 + Ward8 +
+                        LessHSEdu + HSGrad + Age + Rent + RatioLifeinDC , 
+                      data = blackwhite06)
+
+blackwhite14 <- filter(DF14, Race == 2 | Race == 1)
+
+DevBad4PplYou14 <- lm(DevBad4PplYou ~ Black + Female + LowIncome + MedIncome + 
+                        Ward1 + Ward2 + Ward4 + Ward5 + Ward6 + Ward7 + Ward8 + 
+                        LessHSEdu + HSGrad + Age + RatioLifeinDC, 
+                       data = blackwhite14)
+
+blackwhite15 <- filter(DF15, race == 2 | race == 1)
 
 DevBad4PplYou15 <- lm(DevBad4PplYou ~ Black + Female + LowIncome + MedIncome + 
-                         Ward2 + Ward3 + Ward4 + Ward5 + Ward6 + Ward7 + Ward8, data = DF15)
+                        Ward1 + Ward2 + Ward4 + Ward5 + Ward6 + Ward7 + Ward8 +
+                        LessHSEdu + HSGrad + Rent + Age + RatioLifeinDC, 
+                      data = blackwhite15)
+# Table 3
+stargazer(DevBad4PplYou06, DevBad4PplYou14, DevBad4PplYou15, title = "Redevelopment is Bad For People Like You")
 
-stargazer(DevBad4PplYou00, DevBad4PplYou06, DevBad4PplYou14, DevBad4PplYou15)
+#### Development is Good for the city  ######
+blackwhite00 <- filter(DF00, race == "White" | race == "Black")
 
-### Dev is Bad for People like you w/ Interaction
+DevGood4City00 <- lm( DevGood4City ~ Black + Female,  
+                       data = blackwhite00)
 
-DevBad4PplYou00B  <- lm(DevBad4PplYou ~ Black + Female + LowIncome , data = 
-                         DF00)
+DevGood4City06 <- lm(DevGood4City ~ Black + Female+ LessHSEdu + HSGrad, 
+                      data = blackwhite06)
 
-DevBad4PplYou06B <- lm(DevBad4PplYou ~ Black + Female + LowIncome + Black*LowIncome + MedIncome + OutsideDC 
-                      + WholeLifeinDC + Less1YearinDC + Ward2 + Ward3 + Ward4 + Ward5 
-                      + Ward6 + Ward7 + Ward8 + Rent + Dem + Dem, data = DF06)
+blackwhite08 <- filter(DF08,RACENET == 1 | RACENET ==2 )
 
-DevBad4PplYou14B <- lm(DevBad4PplYou ~ Black + Female + LowIncome + Black*LowIncome + MedIncome + 
-                        Ward2 + Ward3 + Ward4 + Ward5 + Ward6 + Ward7 + Ward8 +
-                        WholeLifeinDC + Less1YearinDC + 
-                        + Conservative + Moderate + Registered, data = DF14)
+DevGood4City08 <- lm(DevGood4City ~ Black + Female + LessHSEdu + HSGrad, 
+                      data = blackwhite08)
 
-DevBad4PplYou15B <- lm(DevBad4PplYou ~ Black + Female + LowIncome + Black*LowIncome + MedIncome + 
-                        Ward2 + Ward3 + Ward4 + Ward5 + Ward6 + Ward7 + Ward8, data = DF15)
-
-stargazer(DevBad4PplYou00B, DevBad4PplYou06B, DevBad4PplYou14B, DevBad4PplYou15B)
-
-
-### Dev is Bad for People like you w/ Interaction
-
-DevBad4PplYou06C <- lm(DevBad4PplYou ~ Black + Female + LowIncome + Black*Rent + MedIncome + OutsideDC 
-                       + WholeLifeinDC + Less1YearinDC + Ward2 + Ward3 + Ward4 + Ward5 + Rent + Black*OutsideDC +
-                       + Ward6 + Ward7 + Ward8 + Rent + Dem + Dem, data = DF06)
-
-DevBad4PplYou14C <- lm(DevBad4PplYou ~ Black + Female + LowIncome + Black*LowIncome + MedIncome + 
-                         Ward2 + Ward3 + Ward4 + Ward5 + Ward6 + Ward7 + Ward8 +
-                         WholeLifeinDC + Less1YearinDC + 
-                         + Conservative + Moderate + Registered, data = DF14)
-
-DevBad4PplYou15C <- lm(DevBad4PplYou ~ Black +Female + LowIncome + Black*Rent + MedIncome + 
-                         Ward2 + Ward3 + Ward4 + Ward5 + Ward6 + Ward7 + Ward8, data = DF15)
-
-stargazer(DevBad4PplYou06C, DevBad4PplYou14C, DevBad4PplYou15C)
-
-### Redevelopment in your neighborhood
-
-DevInMyNbhd02 <- lm(DevInMyNbhd ~ Black + Female + 
-                        Age + Ward1 + Ward3 + Ward4 + Ward5 +Ward6 + Ward7 + 
-                        Ward8 + LessHSEdu + HSGrad + Rent + Dem + DCRaceRelationsBetter 
-                      + WholeLifeinDC , data = DF02)
-
-DevInMyNbhd11 <- lm(DevInMyNbhd ~ Black +  Female + LowIncome + MedIncome +
-                       Age + Ward1 + Ward3 + Ward4 + Ward5 +Ward6 + Ward7 + 
-                       Ward8 + Rent + GettingAhead + Maintain + WholeLifeinDC 
-                     + Less1YearinDC,  data = DF11)
-
-stargazer(DevInMyNbhd02, DevInMyNbhd11)
+# Table Good for the City
+stargazer(DevGood4City00, DevGood4City06, DevGood4City08, title = "Development is Good for the City" )
 
 
-### Redevelopment in Good for My Neighborhood
+###### Dev is Good for the City With Wards
+DevGood4City06 <- lm(DevGood4City ~ Black + Female + LowIncome + MedIncome + 
+                       Ward1 + Ward2 + Ward4 + Ward5 + Ward6 + Ward7 + Ward8 +
+                       LessHSEdu + HSGrad + Age + RatioLifeinDC,
+                      data = blackwhite06)
 
-DevGood4Nhbd00 <- lm(DevGood4Nhbd ~ Black + Female + LowIncome , data = 
-                       DF00)
+DevGood4City08 <- lm(DevGood4City ~ Black + Female + LowIncome + MedIncome +
+                       Ward1 + Ward2 + Ward4 + Ward5 + Ward6 + Ward7 + Ward8  + 
+                       LessHSEdu + HSGrad + Age,  data = blackwhite08)
+# Table Dev Good For City
 
-DevGood4Nhbd02 <- lm(DevGood4Nbhd ~ Black + Female + 
-                       Age + Ward1 + Ward3 + Ward4 + Ward5 +Ward6 + Ward7 + 
-                       Ward8 + LessHSEdu + HSGrad + Rent + Dem + DCRaceRelationsBetter 
-                     + WholeLifeinDC , data = DF02)
+stargazer(DevGood4City06, DevGood4City08, title = "Development is Good for the City: With Wards")
 
-DevGood4Nhbd06 <- lm(DevGood4Nhbd ~ Black + Female + LowIncome + Black*LowIncome + MedIncome + OutsideDC 
-                       + WholeLifeinDC + Less1YearinDC + Ward2 + Ward3 + Ward4 + Ward5 
-                       + Ward6 + Ward7 + Ward8 + Rent + Dem + Dem, data = DF06)
+##### Development is Good for the Rich 06, 08 14 #######
+DevGood4Rich06 <- lm(DevGood4Rich ~ Black + Female + LowIncome + MedIncome +
+                        Ward1 + Ward2 + Ward4 + Ward5 + Ward6 + Ward7 + Ward8 + 
+                        Rent +LessHSEdu  + HSGrad + Age + RatioLifeinDC, 
+                       data = blackwhite06)
 
-DevGood4Nhbd08  <- lm(DevGood4Nhbd ~ Black + Female + LowIncome + MedIncome + OutsideDC 
-                  +Ward2 + Ward3 + Ward4 + Ward5 + Ward6 + Ward7 + Ward8 + Rent + 
-                    Dem + NotRegistered +DevYesMove + DevMaybeMove + DevMoveHappened 
-                  +CouldNotBuyHome + VWorriedHousingCosts + WorriedHousingCosts 
-                  + FallBehind, data = DF08)
+DevGood4Rich08 <- lm(DevGood4Rich ~ Black + Female + LowIncome + MedIncome + 
+                        Ward1 + Ward2 + Ward4 + Ward5 + Ward6 + Ward7 + Ward8 + 
+                        Rent + LessHSEdu + HSGrad + Age ,  data = blackwhite08)
 
-DevGood4Nhbd11 <- lm(DevGood4Nbhd ~ Black + Female + LowIncome + MedIncome +
-                      Age + Ward2 + Ward3 + Ward4 + Ward5 +Ward6 + Ward7 + 
-                      Ward8 + Rent + GettingAhead + Maintain + WholeLifeinDC 
-                    + Less1YearinDC,  data = DF11)
-
-stargazer(DevGood4Nhbd00, DevGood4Nhbd02, DevGood4Nhbd06)
-stargazer(DevGood4Nhbd06, DevGood4Nhbd08, DevGood4Nhbd11)
-
-### Redevelopment in Good for The City
-
-DevGood4City00 <- lm(DevGood4City ~ Black + Female + LowIncome , data = 
-                       DF00)
-
-DevGood4City06 <- lm(DevGood4City ~ Black +Female + LowIncome + Black*LowIncome + MedIncome + OutsideDC 
-                     + WholeLifeinDC + Less1YearinDC + Ward2 + Ward3 + Ward4 + Ward5 
-                     + Ward6 + Ward7 + Ward8 + Rent + Dem + Dem, data = DF06)
-
-DevGood4City08  <- lm(DevGood4City ~ Black + Female + LowIncome + MedIncome + OutsideDC 
-                      +Ward2 + Ward3 + Ward4 + Ward5 + Ward6 + Ward7 + Ward8 + Rent + 
-                        Dem + NotRegistered +DevYesMove + DevMaybeMove + DevMoveHappened 
-                      +CouldNotBuyHome + VWorriedHousingCosts + WorriedHousingCosts 
-                      + FallBehind, data = DF08)
-stargazer(DevGood4City00, DevGood4City06, DevGood4City08)
-
-# Displacement
-# Has redevelopment caused you to consider moving
-DevYesMove02  <- lm(DevYesMove ~ Black + Female + 
-                      Age + Ward1 + Ward3 + Ward4 + Ward5 +Ward6 + Ward7 + 
-                      Ward8 + LessHSEdu + HSGrad + Rent + Dem + DCRaceRelationsBetter 
-                    + WholeLifeinDC , data = DF02)
-stargazer(DevYesMove02)
-
-# Do you think you will be forced to move because of redevelopment?
-DevYesMove06 <- lm(DevYesMove ~ Black + Female + LowIncome + Black*LowIncome + MedIncome + OutsideDC 
-                     + WholeLifeinDC + Less1YearinDC + Ward2 + Ward3 + Ward4 + Ward5 
-                     + Ward6 + Ward7 + Ward8 + Rent + Dem + Dem, data = DF06)
-
-DevYesMove08  <- lm(DevYesMove ~ Black + Female + LowIncome + MedIncome + OutsideDC 
-                      +Ward2 + Ward3 + Ward4 + Ward5 + Ward6 + Ward7 + Ward8 + Rent + 
-                        Dem + NotRegistered +DevYesMove + DevMaybeMove + DevMoveHappened 
-                      +CouldNotBuyHome + VWorriedHousingCosts + WorriedHousingCosts 
-                      + FallBehind, data = DF08)
-
-stargazer(DevYesMove06, DevYesMove08)
-
-# What describes your family's financial situation?
-FallBehind08  <- lm(FallBehind ~ Black + Female + LowIncome + MedIncome + OutsideDC 
-                    +Ward2 + Ward3 + Ward4 + Ward5 + Ward6 + Ward7 + Ward8 + Rent + 
-                      Dem + NotRegistered +DevYesMove + DevMaybeMove + DevMoveHappened 
-                    +CouldNotBuyHome + VWorriedHousingCosts + WorriedHousingCosts , data = DF08)
-
-FallBehind11 <- lm(FallBehind ~ Black + Female + LowIncome + Black*LowIncome+ MedIncome +
-                       Age + Ward2 + Ward3 + Ward4 + Ward5 +Ward6 + Ward7 + 
-                       Ward8 + Rent + WholeLifeinDC 
-                     + Less1YearinDC,  data = DF11)
-
-FallBehind15 <- lm(FallBehind ~ Black +Female + LowIncome + Black*LowIncome + MedIncome + 
-                         Ward2 + Ward3 + Ward4 + Ward5 + Ward6 + Ward7 + Ward8, data = DF15)
-stargazer(FallBehind08, FallBehind11, FallBehind15)
+DevGood4Rich14 <- lm(DevGood4Rich ~ Black + Female + LowIncome + MedIncome + 
+                        Ward1 + Ward2 + Ward4 + Ward5 + Ward6 + Ward7 + Ward8 +  
+                        LessHSEdu + HSGrad +  Age + RatioLifeinDC, family = 
+                        binomial, data = blackwhite14)
+#Table 4
+stargazer(DevGood4Rich06, DevGood4Rich08, DevGood4Rich14, title = "Redevelopment is Good for the Rich")
 
 
+###### Development is Good for the Poor ###########
+
+DevGood4Poor06 <- lm(DevGood4Poor ~Black + Female + LowIncome + MedIncome + Ward1 + Ward2 + Ward4 + Ward5
+                     + Ward6 + Ward7 + Ward8 +  Rent + LessHSEdu + HSGrad + 
+                       Age + RatioLifeinDC,  data = blackwhite06)
+
+DevGood4Poor08 <- lm(DevGood4Poor ~ Black + Female + LowIncome + MedIncome + Ward1 + Ward2 + Ward4 + Ward5
+                     + Ward6 + Ward7 + Ward8 + Rent + LessHSEdu + HSGrad + 
+                       Age ,  data = blackwhite08)
+
+
+DevGood4Poor14 <- lm(DevGood4Poor ~ Black + Female + LowIncome + MedIncome + Ward1 + Ward2 + Ward4 + Ward5
+                     + Ward6 + Ward7 + Ward8 +LessHSEdu + HSGrad + 
+                       Age + RatioLifeinDC, data = blackwhite14)
+# Table 5
+stargazer(DevGood4Poor06, DevGood4Poor08, DevGood4Poor14, title = "Redevelopment is Good for the Poor")
+
+###### Development is Bad for the Poor ###########
+
+DevBad4Poor06 <- lm(DevBad4Poor ~Black + Female + LowIncome + MedIncome + Ward1 + Ward2 + Ward4 + Ward5
+                    + Ward6 + Ward7 + Ward8 +  LessHSEdu + HSGrad + Rent +
+                      Age + RatioLifeinDC,  data = blackwhite06)
+
+DevBad4Poor08 <- lm(DevBad4Poor ~ Black + Female + LowIncome + MedIncome + Ward1 + Ward2 + Ward4 + Ward5
+                    + Ward6 + Ward7 + Ward8 +  LessHSEdu + HSGrad + Rent +
+                      Age ,  data = blackwhite08)
+
+
+DevBad4Poor14 <- lm(DevBad4Poor ~ Black + Female + LowIncome + MedIncome + Ward1 + Ward2 + Ward4 + Ward5
+                    + Ward6 + Ward7 + Ward8 +  LessHSEdu + HSGrad + 
+                      Age + RatioLifeinDC,  data = blackwhite14)
+# Table APPENDIX
+stargazer(DevBad4Poor06, DevBad4Poor08, DevBad4Poor14, title = "Development is Bad for the Poor")
+
+
+####### Displacement 
+##### Development has caused you to consider moving ######
+
+colnames(DF02)[colnames(DF02) == "AGE"] <- "Age"
+blackwhite02 <- filter(DF02, RACE == 1 | RACE == 2)
+
+
+DevYesMove02 <- lm(DevYesMove ~  Black +  Female + Ward1 +
+                      Ward2 + Ward4 + Ward5 + Ward6 + Ward7 + Ward8 + Rent ,  data = blackwhite02)
+
+DevYesMove06 <- lm(DevYesMove ~Black + Female + LowIncome + MedIncome + Ward1 + Ward2 + Ward4 + Ward5
+                   + Ward6 + Ward7 + Ward8 + Rent + LessHSEdu + HSGrad + 
+                     Age + RatioLifeinDC,  data = blackwhite06)
+
+DevYesMove08 <- lm(DevYesMove ~ Black + Female + LowIncome + MedIncome + Ward1 + Ward2 + Ward4 + Ward5
+                   + Ward6 + Ward7 + Ward8 +  Rent + LessHSEdu + HSGrad + 
+                     Age + Rent ,  data = blackwhite08)
+# Table 6
+stargazer(DevYesMove02, DevYesMove06, DevYesMove08, title="Redevelopment Has Caused You To Consider Moving")
+
+
+# Could Move within DC
+
+OutsideDC02 <- lm(OutsideDC ~  Black +  Female +LowIncome +  Ward1 + 
+                    Ward2 + Ward4 + Ward5 + Ward6 + Ward7 + Ward8 +  HSGrad+ HSGrad 
+                  + Age + RatioLifeinDC + Rent,  data = blackwhite02)
+
+OutsideDC06 <- lm(OutsideDC ~Black + Female + LowIncome + MedIncome + Ward1 + 
+                    Ward2 + Ward4 + Ward5
+                  + Ward6 + Ward7 + Ward8 +  LessHSEdu + HSGrad + 
+                    Age + RatioLifeinDC + Rent,  data = blackwhite06)
+
+OutsideDC08 <- lm(OutsideDC ~ Black + Female + LowIncome + MedIncome + Ward1 + 
+                    Ward2 + Ward4 + Ward5 + Ward6 + Ward7 + Ward8 +  LessHSEdu + 
+                    HSGrad + Age + Rent,  data = blackwhite08)
+
+
+OutsideDC11 <- lm(OutsideDC ~ Black + Female + LowIncome + MedIncome + Ward1 + 
+                    Ward2 + Ward4 + Ward5 + Ward6 +  Ward7 + Ward8 + Age + 
+                    Rent + RatioLifeinDC,  data = blackwhite11)
+
+OutsideDC15 <- lm(OutsideDC ~ Black + Female + LowIncome + MedIncome  + Ward1 +
+                    Ward2 + Ward4 + Ward5 + Ward6 + Ward7 + Ward8 + Age +   LessHSEdu + 
+                    HSGrad + Rent + RatioLifeinDC, data = blackwhite15)
+# Table 7
+stargazer(OutsideDC06, OutsideDC08, OutsideDC11, OutsideDC15, title = "Would Have to Leave D.C. If They Had to Move 'Today'")
+
+###### Could Not buy home 
+CouldNotBuyHome06 <- lm(CouldNotBuyHome ~Black + Female + LowIncome + MedIncome + Ward1 + 
+                          Ward2 + Ward4 + Ward5
+                        + Ward6 + Ward7 + Ward8 +  LessHSEdu + HSGrad + 
+                          Age + RatioLifeinDC + Rent,  data = blackwhite06)
+
+CouldNotBuyHome08 <- lm(CouldNotBuyHome ~ Black + Female + LowIncome + MedIncome + Ward1 + 
+                          Ward2 + Ward4 + Ward5 + Ward6 + Ward7 + Ward8 +  LessHSEdu + 
+                          HSGrad + Age + Rent,  data = blackwhite08)
+# Table 8
+stargazer(CouldNotBuyHome06, CouldNotBuyHome08, title = "Could Not Buy A Home In D.C. if They Were Looking ")
+
+
+
+# Could Move within DC
+
+#blackres02 <- rename(blackres02, Age = AGE )
+BlkOutsideDC02 <- lm(OutsideDC ~   Female + LowIncome +  Ward1 + 
+                       Ward2 + Ward4 + Ward5 + Ward6 + Ward7 + Ward8 +  HSGrad+ HSGrad 
+                      + RatioLifeinDC + Age + Rent, data = blackres02)
+
+BlkOutsideDC06 <- lm(OutsideDC ~ Female + LowIncome + MedIncome + Ward1 + 
+                       Ward2 + Ward4 + Ward5
+                     + Ward6 + Ward7 + Ward8 +  LessHSEdu + HSGrad + 
+                       Age + RatioLifeinDC + Rent,  data = blackres06)
+
+BlkOutsideDC08 <- lm(OutsideDC ~  Female + LowIncome + MedIncome + Ward1 + 
+                       Ward2 + Ward4 + Ward5 + Ward6 + Ward7 + Ward8 +  LessHSEdu + 
+                       HSGrad + Age + Rent,  data = blackres08)
+
+
+BlkOutsideDC11 <- lm(OutsideDC ~ Female + LowIncome + MedIncome + Ward1 + 
+                       Ward2 + Ward4 + Ward5 + Ward6 +  Ward7 + Ward8 + Age + 
+                       Rent + RatioLifeinDC,  data = blackres11)
+
+BlkOutsideDC15 <- lm(OutsideDC ~ Female + LowIncome + MedIncome  + Ward1 +
+                       Ward2 + Ward4 + Ward5 + Ward6 + Ward7 + Ward8 + Age + 
+                       Rent + RatioLifeinDC,  data = blackres15)
+
+stargazer( BlkOutsideDC06, BlkOutsideDC08,BlkOutsideDC11, BlkOutsideDC15, title = "Would Have to Move Outside D.C.: Black Residents")
+
+# 
+# 
+
+BlkCouldNotBuyHome06 <- lm(CouldNotBuyHome ~ Female + LowIncome + MedIncome + Ward1 + 
+                          Ward2 + Ward4 + Ward5
+                        + Ward6 + Ward7 + Ward8 +  LessHSEdu + HSGrad + 
+                          Age + RatioLifeinDC + Rent,  data = blackres06)
+
+BlkCouldNotBuyHome08 <- lm(CouldNotBuyHome ~  Female + LowIncome + MedIncome + Ward1 + 
+                          Ward2 + Ward4 + Ward5 + Ward6 + Ward7 + Ward8 +  LessHSEdu + 
+                          HSGrad + Age + Rent,  data = blackres08)
+# Table 8
+stargazer(BlkCouldNotBuyHome06, BlkCouldNotBuyHome08, title = "Could Not Buy A Home In D.C. if They Were Looking: Black Residents ")
+# BlkCouldNotBuyHome06 <- lm(CouldNotBuyHome ~  LowIncome + MedIncome +
+#                                  Ward1 + Ward2 + Ward4 + Ward5 + Ward6 + Ward7 + 
+#                                  Ward8,  data = blackres06)
+# summary(BlkCouldNotBuyHome06LoGA)
+# 
+# BlkCouldNotBuyHome06 <- lm(CouldNotBuyHome ~ Female + LowIncome + MedIncome 
+#                                 + RatioLifeinDC,  data = blackres06)
+# summary(BlkCouldNotBuyHome06LoGB)
+# # These models remain over specified 
+# 
+# BlkCouldNotBuyHome08 <- lm(CouldNotBuyHome ~ Female + LowIncome + MedIncome + Ward1 + 
+#                              Ward2 + Ward4 + Ward5 + Ward6 + Ward7 + Ward8 +  LessHSEdu + 
+#                              HSGrad + Age + Own,  data = blackres08)
+# 
+# BlkCouldNotBuyHome08LoG <- lm(CouldNotBuyHome ~ Female + LowIncome + MedIncome + Ward1 + 
+#                                  Ward2 + Ward4 + Ward5 + Ward6 + Ward7 + Ward8 +  LessHSEdu + 
+#                                  HSGrad + Age + Own,  data = blackres08)
+# summary(BlkCouldNotBuyHome08LoG)
+# 
+# 
+# stargazer(BlkCouldNotBuyHome06, BlkCouldNotBuyHome08)
+# 
+# #install.packages("lmtest")
+# library(lmtest)
+# lrtest(DevMainlyBad11, DevMainlyBad11A)
+
+
+## DC Culture Change
+
+whiteres11 <- filter(DF11, qnd11a == "White")
+DCCultureChange11 <- lm(DCCultureChange ~ Black + Female + LowIncome + MedIncome + Ward1 + 
+                       Ward2 + Ward4 + Ward5 + Ward6 +  Ward7 + Ward8 + Age + 
+                       Rent + RatioLifeinDC,  data = blackwhite11)
+
+DCCultureChange11Black <- lm(DCCultureChange ~ Female + LowIncome + MedIncome + Ward1 + 
+                       Ward2 + Ward4 + Ward5 + Ward6 +  Ward7 + Ward8 + Age + 
+                       Rent + RatioLifeinDC,  data = blackres11)
+
+DCCultureChange11White <- lm(DCCultureChange ~ Female + LowIncome + MedIncome + Ward1 + 
+                       Ward2 + Ward4 + Ward5 + Ward6 +  Ward7 + Ward8 + Age + 
+                       Rent + RatioLifeinDC,  data = whiteres11)
+
+stargazer(DCCultureChange11, DCCultureChange11Black, DCCultureChange11White, title = "No Longer Being Majority Black Has Changed the Culture of DC")
+
+#### Culture change is better
+
+DCCultureChangeBetter11 <- lm(CultureChangeBetter ~ Black + Female + LowIncome + MedIncome + Ward1 + 
+                          Ward2 + Ward4 + Ward5 + Ward6 +  Ward7 + Ward8 + Age + 
+                          Rent + RatioLifeinDC,  data = blackwhite11)
+
+DCCultureChange11Black <- lm(CultureChangeBetter ~ Female + LowIncome + MedIncome + Ward1 + 
+                               Ward2 + Ward4 + Ward5 + Ward6 +  Ward7 + Ward8 + Age + 
+                               Rent + RatioLifeinDC,  data = blackres11)
+
+DCCultureChange11White <- lm(CultureChangeBetter ~ Female + LowIncome + MedIncome + Ward1 + 
+                               Ward2 + Ward4 + Ward5 + Ward6 +  Ward7 + Ward8 + Age + 
+                               Rent + RatioLifeinDC,  data = whiteres11)
+
+stargazer(DCCultureChangeBetter11, DCCultureChange11Black, DCCultureChange11White, title = "Change is For the Better")
+
+#### Culture change is Worse
+
+DCCultureChangeWorse11 <- lm(CultureChangeWorse ~ Black + Female + LowIncome + MedIncome + Ward1 + 
+                                Ward2 + Ward4 + Ward5 + Ward6 +  Ward7 + Ward8 + Age + 
+                                Rent + RatioLifeinDC,  data = blackwhite11)
+
+DCCultureChangeWorse11Black <- lm(CultureChangeWorse ~ Female + LowIncome + MedIncome + Ward1 + 
+                               Ward2 + Ward4 + Ward5 + Ward6 +  Ward7 + Ward8 + Age + 
+                               Rent + RatioLifeinDC,  data = blackres11)
+
+DCCultureChangeWorse11White <- lm(CultureChangeWorse ~ Female + LowIncome + MedIncome + Ward1 + 
+                               Ward2 + Ward4 + Ward5 + Ward6 +  Ward7 + Ward8 + Age + 
+                               Rent + RatioLifeinDC,  data = whiteres11)
+
+stargazer(DCCultureChangeWorse11, DCCultureChangeWorse11Black, DCCultureChangeWorse11White, title = "Change is For the Worse")
+##### Testing associations #############3
+##### 2011 Associations ###################
+BLI <- as.numeric(sum(bwdevgoodbad11$Black & bwdevgoodbad11$LowIncome))
+BMHI <- as.numeric(sum(bwdevgoodbad11$Black & bwdevgoodbad11$MedIncome | bwdevgoodbad11$HighIncome))
+WLI <- as.numeric(sum(bwdevgoodbad11$White & bwdevgoodbad11$LowIncome))
+WMHI <- as.numeric(sum(bwdevgoodbad11$White & bwdevgoodbad11$MedIncome | bwdevgoodbad11$HighIncome))
+
+RaceIncM = matrix(c(BLI, BMHI, WLI, WMHI), 2,2)
+dimnames(RaceIncM) = list(Race= c('Black', 'White'), LowInc = c('LowInc', 'NotLowInc'))
+RaceInc = as.table(RaceIncM) # make table
+#install.packages("psych")
+library(psych)
+phi(RaceInc) # 0.31 shows a weak-moderate relationship between being Black and having Low Income
+cor(na.omit(bwdevgoodbad11$Age), na.omit(bwdevgoodbad11$RatioLifeinDC))   # This returns NA but I don't know why
+
+# Testing association
+BO <- as.numeric(sum(bwdevgoodbad11$Black & bwdevgoodbad11$Own))
+BNO <- as.numeric(sum(bwdevgoodbad11$Black & bwdevgoodbad11$Rent | bwdevgoodbad11$HousingRefused | bwdevgoodbad11$OtherHousing))
+WO <- as.numeric(sum(bwdevgoodbad11$White & bwdevgoodbad11$Own))
+WNO <- as.numeric(sum(bwdevgoodbad11$White & bwdevgoodbad11$Rent | bwdevgoodbad11$HousingRefused | bwdevgoodbad11$OtherHousing))
+
+RaceOwnM = matrix(c(BO, BNO, WO, WNO), 2,2)
+dimnames(RaceOwnM) = list(Race= c('Black', 'White'), HomeOwn = c('Own', 'NotOwn'))
+RaceOwn = as.table(RaceOwnM) # make table
+#install.packages("psych")
+#library(psych)
+phi(RaceOwn) # -.12 shows no meaningful relationship between being black and owning a home
+
+# Testing association
+BW8 <- as.numeric(sum(bwdevgoodbad11$Black & bwdevgoodbad11$Ward8|bwdevgoodbad11$Ward7))
+BNW8 <- as.numeric(sum(bwdevgoodbad11$Black & bwdevgoodbad11$Ward1 | bwdevgoodbad11$Ward2 
+                       |bwdevgoodbad11$Ward3 | bwdevgoodbad11$Ward4|bwdevgoodbad11$Ward5 | bwdevgoodbad11$Ward6 ))
+WW8 <- as.numeric(sum(bwdevgoodbad11$White & bwdevgoodbad11$Ward8 |bwdevgoodbad11$Ward7))
+WNW8 <- as.numeric(sum(bwdevgoodbad11$White & bwdevgoodbad11$Ward1 | bwdevgoodbad11$Ward2 
+                       |bwdevgoodbad11$Ward3 | bwdevgoodbad11$Ward4|bwdevgoodbad11$Ward5 | bwdevgoodbad11$Ward6 ))
+
+RaceWard78M = matrix(c(BW8, BNW8, WW8, WNW8), 2,2)
+dimnames(RaceWard78M) = list(Race= c('Black', 'White'), HomeOwn = c('W78', 'NotW78'))
+RaceWard78 = as.table(RaceWard78M) # make table
+#install.packages("psych")
+#library(psych)
+phi(RaceWard78) # 0.11 shows no meaningful relationship between being black and living in wards 7 or 8
+
+summary(lm(Age ~ RatioLifeinDC + WholeLifeinDC, data = DF11)) #Age is negatively associated with living whole life in DC and positively associated with Ratio of life in DC. 
+
+
+ 
